@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 # change these
-CONTAINER_IMAGE=service-mesh-workshop-dashboard
+CONTAINER_IMAGE=serverless-workshop-dashboard
 DOCKERFILE_DIR=
 
 function print_usage() {

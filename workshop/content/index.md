@@ -2,7 +2,7 @@
 
 ## Description 
 
-As modern applications move toward microservices based architectures the importance of a platform to back both development and operational work grows. Development teams struggle with building, debugging, and connecting services properly. And application operations teams face increasing challenges with hybrid deployments, scaling bottlenecks, recovering from failure, and gathering metrics. Red Hat’s OpenShift Service Mesh lets you connect, secure, control, and observe your microservice based applications.
+Serverless computing allows developers to optimize their application usage by executing and billing on application resource consumption.  Traditionally, this execution model was offered by cloud providers in a non-portable manner.  Today, the serverless paradigm is offered on OpenShift - leveraging the innovation happening in the open source Knative project. This brings a key capability for developers to build portable cloud native applications in hybrid and multi-cloud environments.
 
 
 ## Who should attend
