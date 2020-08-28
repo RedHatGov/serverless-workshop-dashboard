@@ -3,6 +3,8 @@ This repo contains the lab guides for a workshop on OpenShift Serverless (Knativ
 
 
 ## Deploying this workshop
+Assuming you have a cluster and that you are logged with admin privileges.
+
 1. Set a local `CLUSTER_SUBDOMAIN` environment variable
 ```
 CLUSTER_SUBDOMAIN=<apps.openshift.com>
@@ -21,7 +23,7 @@ oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/devel
     -p WORKSHOP_IMAGE=quay.io/redhatgov/serverless-workshop-dashboard:latest
 | oc apply -f -
 ```
-5. Give this URL (or preferably a shortened version) to your workshop attendees:
+4. Give this URL (or preferably a shortened version) to your workshop attendees:
 ```
 echo https://serverless-workshop-homeroom.$CLUSTER_SUBDOMAIN
 ```
