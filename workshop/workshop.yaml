@@ -1,0 +1,7 @@
+---
+name: OpenShift Serverless Workshop
+
+modules:
+  activate:
+    - index
+    - fin

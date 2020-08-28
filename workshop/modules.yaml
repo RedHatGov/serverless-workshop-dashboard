@@ -1,0 +1,7 @@
+---
+modules:
+  index:
+    name: Index
+  fin:
+    name: Fin
+
