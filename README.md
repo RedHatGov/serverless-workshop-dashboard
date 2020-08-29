@@ -20,7 +20,7 @@ oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/devel
     -p CLUSTER_SUBDOMAIN=$CLUSTER_SUBDOMAIN \
     -p WORKSHOP_NAME=serverless-workshop \
     -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.5 \
-    -p WORKSHOP_IMAGE=quay.io/redhatgov/serverless-workshop-dashboard:latest
+    -p WORKSHOP_IMAGE=quay.io/redhatgov/serverless-workshop-labguides:latest
 | oc apply -f -
 ```
 4. Give this URL (or preferably a shortened version) to your workshop attendees:

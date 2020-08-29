@@ -1,0 +1,24 @@
+# ./.github/workflows/nightlycontainerimage.yaml
+
+name: Nightly Container Image
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    # uncomment for nightly - cron: '0 0 * * *'
+    - cron: '0 0 * * 0'
+jobs:
+  build-and-push:
+    name: Build and push to quay.io
+    runs-on: ubuntu-latest 
+    steps:
+      - name: git checkout
+        uses: actions/checkout@v2
+      - name: Build and push container images
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: quay.io
+          repository: redhatgov/serverless-workshop-labguides
+          tags: latest
+          add_git_labels: true
