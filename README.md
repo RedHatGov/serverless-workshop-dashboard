@@ -1,6 +1,6 @@
-![Released Container Image](https://github.com/RedHatGov/serverless-workshop-labguides/workflows/Released%20Container%20Image/badge.svg)
+![Released Container Image](https://github.com/RedHatGov/serverless-workshop-dashboard/workflows/Released%20Container%20Image/badge.svg)
 
-![Nightly Container Image](https://github.com/RedHatGov/serverless-workshop-labguides/workflows/Nightly%20Container%20Image/badge.svg)
+![Nightly Container Image](https://github.com/RedHatGov/serverless-workshop-dashboard/workflows/Nightly%20Container%20Image/badge.svg)
 
 
 # OpenShift Serverless Workshop
@@ -25,7 +25,7 @@ oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/devel
     -p CLUSTER_SUBDOMAIN=$CLUSTER_SUBDOMAIN \
     -p WORKSHOP_NAME=serverless-workshop \
     -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.5 \
-    -p WORKSHOP_IMAGE=quay.io/redhatgov/serverless-workshop-labguides:latest
+    -p WORKSHOP_IMAGE=quay.io/redhatgov/serverless-workshop-dashboard:latest
 | oc apply -f -
 ```
 4. Give this URL (or preferably a shortened version) to your workshop attendees:

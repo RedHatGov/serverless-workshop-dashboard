@@ -20,6 +20,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: quay.io
-          repository: redhatgov/serverless-workshop-labguides
+          repository: redhatgov/serverless-workshop-dashboard
           tags: ${{ steps.get_version.outputs.VERSION }}
           add_git_labels: true
