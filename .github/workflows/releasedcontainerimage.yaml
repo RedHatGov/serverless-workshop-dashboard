@@ -3,7 +3,7 @@
 name: Released Container Image
 on:
   release:
-    types: [released, edited]
+    types: [published, released, edited]
 jobs:
   build-and-push:
     name: Build and push to quay.io
