@@ -1,4 +1,4 @@
-# ./.github/workflows/nightlycontainerimage.yaml
+# ./.github/workflows/releasedcontainerimage.yaml
 
 name: Released Container Image
 on:
