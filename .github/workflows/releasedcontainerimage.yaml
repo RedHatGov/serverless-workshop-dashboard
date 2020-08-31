@@ -1,10 +1,9 @@
 # ./.github/workflows/nightlycontainerimage.yaml
 
-name: Nightly Container Image
+name: Released Container Image
 on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron: '0 0 * * *'
+  release:
+    types: [released, edited]
 jobs:
   build-and-push:
     name: Build and push to quay.io
@@ -12,6 +11,9 @@ jobs:
     steps:
       - name: git checkout
         uses: actions/checkout@v2
+      - name: Get the release version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
       - name: Build and push container images
         uses: docker/build-push-action@v1
         with:
@@ -19,5 +21,5 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           registry: quay.io
           repository: redhatgov/serverless-workshop-labguides
-          tags: latest
+          tags: ${{ steps.get_version.outputs.VERSION }}
           add_git_labels: true
