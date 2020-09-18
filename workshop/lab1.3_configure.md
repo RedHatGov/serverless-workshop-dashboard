@@ -5,13 +5,13 @@ As a preqrequisite to running these labs, you will need access to an OpenShift v
 
 ## Operator Installation
 
-In OpenShift, installation of Knative is very easy.  You simply need to find and install the OpenShift Serverless Operator.
+In OpenShift, installation of Knative is very easy.  You just need to find and install the OpenShift Serverless Operator.
 
 ![OpenShift Serverless Operator Hub](content/images/serverless_operator_hub.png)*Operator Hub*
 
 Then click install.
 
-![Install OpenShift Serverless Operator](content/images/serverless_install_operator.png)*Install*
+![Install OpenShift Serverless Operator](content/images/serverless_install_operator.png)*OpenShift Serverless Operator*
 
 Next make sure to install in all namespaces.  Select the latest Update Channel made available to you.  For the purposes of this demo, we'll pick the Manual approval strategy.  Lastly, click Subscribe.
 
