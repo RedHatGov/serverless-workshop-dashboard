@@ -27,9 +27,7 @@ Assuming you have a cluster and that you are logged with admin privileges.
 > ```
 
 ## Access info for the workshop
-Your workshop attendees will need user accounts in the OpenShift cluster. An easy way to do that is as follows:
-```
-```
+Your workshop attendees will need user accounts in the OpenShift cluster.
 
 Now give this URL (or preferably a shortened version) to your workshop attendees:
 >`echo https://serverless-workshop-homeroom.$CLUSTER_SUBDOMAIN`
@@ -45,21 +43,23 @@ As long as no one else is running a homeroom workshop in the same cluster, you c
 You need the docker or podman CLI. Then simply run:
 > `docker build . -t serverless-workshop-dashboard`
 
-### Running locally
+### Running locally (note this requires a lot of memory)
 You'll need [Code Ready Containers](https://cloud.redhat.com/openshift/install/crc/installer-provisioned).
 
 Start your cluster and create a project to work in
 > `crc start`
+> 
 > `oc new-project homeroom --display-name="Homeroom Workshops"`
 
 Build the image in your cluster: 
 > `oc new-build --strategy docker --binary --docker-image quay.io/redhatgov/workshop-dashboard:latest --name=serverless-workshop-dashboard`
+> 
 > `oc start-build serverless-workshop-dashboard --from-dir . --follow`
 
 Export a cluster subdomain:
 > `CLUSTER_SUBDOMAIN=<apps.openshift.com>`
-> 
-Deploy the workshop using the imported image: TBD
+
+Deploy the workshop using the imported image:
 > ```
 > oc process -f https://raw.githubusercontent.com/RedHatGov/workshop-spawner/develop/templates/hosted-workshop-production.json \
 >    -p SPAWNER_NAMESPACE=homeroom \
@@ -73,5 +73,5 @@ Deploy the workshop using the imported image: TBD
 Wait until it's ready
 > `oc get pods -w`
 
-It will be available here:
+It will be available here (login your developer/developer account - kubadmin doesn't seem to work):
 > `open https://serverless-workshop-homeroom.$CLUSTER_SUBDOMAIN`
