@@ -8,19 +8,19 @@ OpenShift Serverless install can be completely done with Operator Hub webconsole
 
 In OpenShift, installation of Knative is very easy.  You just need to find and install the OpenShift Serverless Operator.
 
-![OpenShift Serverless Operator Hub](content/images/serverless_operator_hub.png)*Operator Hub*
+![OpenShift Serverless Operator Hub](images/serverless_operator_hub.png)*Operator Hub*
 
 Then click install.
 
-![Install OpenShift Serverless Operator](content/images/serverless_install_operator.png)*OpenShift Serverless Operator*
+![Install OpenShift Serverless Operator](images/serverless_install_operator.png)*OpenShift Serverless Operator*
 
 Next make sure to install in all namespaces.  Select the latest Update Channel made available to you.  For the purposes of this demo, we'll pick the Manual approval strategy.  Lastly, click Subscribe.
 
-![Subscribe to OpenShift Serverless Operator](content/images/serverless_create_subscription.png)*Subscribe*
+![Subscribe to OpenShift Serverless Operator](images/serverless_create_subscription.png)*Subscribe*
 
 Wait a few minutes and eventually you will see it show up as Installed Operator with the status of Succeeded
 
-![Subscribe to OpenShift Serverless Operator](content/images/serverless_installed_operator.png)*Installed*
+![Subscribe to OpenShift Serverless Operator](images/serverless_installed_operator.png)*Installed*
 
 
 ## Knative Serving Installation
