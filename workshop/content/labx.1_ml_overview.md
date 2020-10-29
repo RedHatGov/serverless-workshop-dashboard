@@ -10,7 +10,7 @@ The backend for this service doesn't need to be running until a disaster strikes
 
 Enter OpenShift Serverless.  Here is the architecture:
 
-![Architecture](images/ml_architecture.png)
+![Architecture](images/ml_architecture_flow.png)
 
 You will focus on building, debugging, and deploying the `NLP Prediction Service`.  You will also integrate the following important components:
 
