@@ -4,7 +4,7 @@
 
 In this lab, you will build and deploy the `NLP Prediction Service` using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Container Storage (OCS)][1].  
 
-How did we create this model?  The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled `1` (the tweet is about a real disater) or `0` (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multionomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
+How did we create this model?  The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled `1` (the tweet is about a real disater) or `0` (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multinomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
 
 Don't worry too much about the ML details.  The model isn't perfect (it's not super accurate and the data is skewed in favor of 'tweet' messages), but it's a good starting point.  More importantly, we gave you a model you can use to run the prediction service!  Let's get started.
 
@@ -22,7 +22,6 @@ Set the endpoint and keys required to connect to your bucket:
 
 ```execute
 export ENDPOINT_URL=https://s3.openshift-storage.svc:443
-# export ENDPOINT_URL=https://s3-openshift-storage.apps.cluster-59ca.59ca.example.opentlc.com:443
 export AWS_ACCESS_KEY_ID=$(oc get secret serverless-workshop-ml -o jsonpath="{.data.AWS_ACCESS_KEY_ID}" | base64 --decode)
 export AWS_SECRET_ACCESS_KEY=$(oc get secret serverless-workshop-ml -o jsonpath="{.data.AWS_SECRET_ACCESS_KEY}" | base64 --decode)
 ```
