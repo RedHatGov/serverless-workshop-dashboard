@@ -1,12 +1,10 @@
 # Build machine learning API
 
-## Background
-
 In this lab, you will build and deploy the `NLP Prediction Service` using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Container Storage (OCS)][1].  
 
 How did we create this model?  The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled `1` (the tweet is about a real disater) or `0` (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multinomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
 
-Don't worry too much about the ML details.  The model isn't perfect (it's not super accurate and the data is skewed in favor of 'tweet' messages), but it's a good starting point.  More importantly, we gave you a model you can use to run the prediction service!  Let's get started.
+Don't worry too much about the ML details.  The model isn't perfect (it's not super accurate and the data is skewed in favor of 'tweet' messages), but it's a good starting point.  More importantly, we gave you a model you can use to run the prediction service!
 
 ## NLP Model
 
@@ -49,7 +47,7 @@ In order to deploy the `NLP Prediction Service`, we need to build the container 
 Build the container image using `s2i`:
 
 ```execute
-oc new-build python:2.7~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
+oc new-build python:3.8~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
 ```
 
 Wait until the build completes.
