@@ -47,7 +47,7 @@ In order to deploy the `NLP Prediction Service`, we need to build the container 
 Build the container image using `s2i`:
 
 ```execute
-oc new-build python:3.8~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
+oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
 ```
 
 Wait until the build completes.
