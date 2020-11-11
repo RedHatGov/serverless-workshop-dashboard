@@ -6,3 +6,8 @@ So focus modernization on what you have. Your main goals should be to use existi
 
 # Modernization Labs
 You've already tried out some of the basic concepts in the intro labs, so now let's try something a bit more interesting. Don't worry, we are still keeping it simple. Let's apply the simple concepts to an existing application so you can see how to leverage it with legacy applications.
+
+Specifically, we are going to look into:
+* Taking advantage of scale-to-0 feature of serverless
+* Leveraging Quarkus for improved Java performance in our microservices
+* Taking advantage of eventing capabilities of serverless
