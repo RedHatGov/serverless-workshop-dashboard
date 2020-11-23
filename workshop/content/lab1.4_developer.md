@@ -14,7 +14,7 @@ oc new-project hello
 
 2.  Build the project
 ```
-oc new-build python:3.6~https://github.com/jkeam/hello-python --name hello-python
+oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python
 ```
 
 4.  Deploy the service
