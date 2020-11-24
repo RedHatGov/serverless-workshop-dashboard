@@ -29,8 +29,13 @@ It would be helpful to walk through a concrete example, again using Kafka. Like 
 
 To illustrate how easy, here is a code snippet of how to do that:
 
+Using the default channel:
 ```
 eventing.knative.dev/broker.class: MTChannelBasedBroker
+```
+
+Using KafkaChannel:
+```
 eventing.knative.dev/broker.class: Kafka
 ```
 
