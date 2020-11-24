@@ -25,7 +25,7 @@ This usage pattern is very similar to Channel and Subscription with a few key di
 
 The other difference is that the Knative Event Source sends events to a Broker.  The Broker implicitly creates a Knative Eventing Channel as opposed to the Source to Sink where we explicitly created the Channel. The other difference is that instead of Knative Sink Services subscribing to the Channel, here we have Triggers that subscribed to Brokers, and these Triggers then call the Knative Service.
 
-It would be helpful to walk through a concrete example, again using Kafka. Like before, we have a KafkaSource that reads events from an Apache Kafka Cluster. KafkaSource would by default send these events to the MTChannelBasedBroker (Multi Tenant Channel Based Broker). This is an in-memory channel. However for persistence, we can swap that for a KafkaChannel.
+It would be helpful to walk through a concrete example, again using Kafka. Like before, we have a KafkaSource that reads events from an Apache Kafka Cluster. KafkaSource would by default send these events to the MTChannelBasedBroker (Multi Tenant Channel Based Broker). This is an in-memory channel. However for persistence, we can swap that for a KafkaBroker.
 
 To illustrate how easy, here is a code snippet of how to do that:
 
