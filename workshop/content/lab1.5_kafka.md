@@ -25,7 +25,18 @@ This usage pattern is very similar to Channel and Subscription with a few key di
 
 The other difference is that the Knative Event Source sends events to a Broker.  The Broker implicitly creates a Knative Eventing Channel as opposed to the Source to Sink where we explicitly created the Channel. The other difference is that instead of Knative Sink Services subscribing to the Channel, here we have Triggers that subscribed to Brokers, and these Triggers then call the Knative Service.
 
-It would be helpful to walk through a concrete example, again using Kafka. Like before, we have a KafkaSource that reads events from an Apache Kafka Cluster. KafkaSource sends these events to the MTChannelBasedBroker (Multi Tenant Channel Based Broker) that is backed by a KafkaChannel. There are a number of Knative Eventing Triggers that subscribe to this Broker. The KafkaChannel itself is the mechanism that provides the event routing functonality to get the events to the subscribed Triggers. The Trigger receives the CloudEvent and has knowledge of the exact type of filtering it needs to perform as well as the exact Knative or Kubernetes service that need to be invoked.
+It would be helpful to walk through a concrete example, again using Kafka. Like before, we have a KafkaSource that reads events from an Apache Kafka Cluster. KafkaSource would by default send these events to the MTChannelBasedBroker (Multi Tenant Channel Based Broker). This is an in-memory channel. However for persistence, we can swap that for a KafkaChannel.
+
+To illustrate how easy, here is a code snippet of how to do that:
+
+```
+eventing.knative.dev/broker.class: MTChannelBasedBroker
+eventing.knative.dev/broker.class: Kafka
+```
+
+Next, there are a number of Knative Eventing Triggers that subscribe to this Broker. The Channel itself is the mechanism that provides the event routing functonality to get the events to the subscribed Triggers. The Trigger receives the CloudEvent and has knowledge of the exact type of filtering it needs to perform as well as the exact Knative or Kubernetes service that need to be invoked.
+
+
 
 ![Broker and Trigger](./images/serverless-eventing-brokers-triggers.png)
 
