@@ -117,7 +117,7 @@ curl -X POST -d 'Body=massive flooding and thunderstorms taking place' $PREDICTI
 
 Wait a minute.  We sent the message 'massive flooding and thunderstorms taking place' and it returned 'No disaster'.  
 
-The NLP model should have predicted that this is a legitimate disaster message.  What happened?
+The NLP model should have predicted that this is legitimate.  What happened?
 
 ## Summary
 

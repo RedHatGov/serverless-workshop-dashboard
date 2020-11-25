@@ -161,18 +161,99 @@ Perfect, this worked as intended.  You fixed the issue, and you are ready to dep
 
 ## Deploy Private Service
 
+OpenShift Serverless offers a capability to deploy a [cluster-local][3] service.  In a cluster-local service, the application is published to a private endpoint.
+
+Let's leverage this to test our fix in OpenShift Serverless before we deploy this live.  We've already prepared the updated code for you in the [main branch](https://github.com/RedHatGov/serverless-workshop-code) of the repo.
+
+> Note: Typically you would create a new commit on the same branch and kick off a build.  For workshop purposes, we'll create a separate build.
+
 > Execute the following in your workshop terminal
 
+Build the container image:
 
+```execute
+oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name prediction-2 --context-dir=model/prediction --to prediction
+```
 
+Wait until the build completes.
+
+List the pods:
+
+```execute
+oc get pods
+```
+
+Output (sample):
+```
+NAME                   READY   STATUS      RESTARTS   AGE
+prediction-1-build     0/1     Completed   0          2m4s
+prediction-2-1-build   0/1     Completed   0          3m30s
+```
+
+Update the prediction service with the new version of the code and make it private using the `--cluster-local` flag:
+
+```execute
+PREDICTION_IMAGE_URI=$(oc get is prediction --template='{{.status.dockerImageRepository}}')
+kn service update prediction --image $PREDICTION_IMAGE_URI --cluster-local
+```
+
+Get the prediction endpoint:
+
+```execute
+PREDICTION_URL=$(oc get route.serving.knative.dev prediction --template='{{.status.url}}/predict')
+echo $PREDICTION_URL
+```
+
+> Notice the endpoint is now private to the cluster.  The workshop terminal is running in OpenShift, so we can send requests directly from the workshop terminal.
+
+Send a sample request.  This should return 'No disaster':
+
+```execute
+curl -X POST -d 'Body=nothing to see here' $PREDICTION_URL | xmllint --format -
+```
+
+Send another sample request.  This should return 'This is a disaster!':
+
+```execute
+curl -X POST -d 'Body=massive flooding and thunderstorms taking place' $PREDICTION_URL | xmllint --format -
+```
 
 ## Deploy Live
 
+Finally, we're ready to make this version live.
+
 > Execute the following in your workshop terminal
 
+Make the service public using the `--no-cluster-local` flag:
 
+```execute
+kn service update prediction --no-cluster-local
+```
+
+Get the prediction endpoint:
+
+```execute
+PREDICTION_URL=$(oc get route.serving.knative.dev prediction --template='{{.status.url}}/predict')
+echo $PREDICTION_URL
+```
+
+> Notice the endpoint is now public to the outside world.
+
+Send a sample request.  This should return 'No disaster':
+
+```execute
+curl -X POST -d 'Body=nothing to see here' $PREDICTION_URL | xmllint --format -
+```
+
+Send another sample request.  This should return 'This is a disaster!':
+
+```execute
+curl -X POST -d 'Body=massive flooding and thunderstorms taking place' $PREDICTION_URL | xmllint --format -
+```
 
 ## Summary
+
+You debugged the `NLP Prediction Service` using CodeReady Workspaces.  Once the fix was identified, you updated the prediction service with the new code and tested it using a private endpoint.  Finally, once you verified that everything was working as intended, you released it live for external use.
 
 [1]: https://www.redhat.com/en/technologies/jboss-middleware/codeready-workspaces
 [2]: https://access.redhat.com/documentation/en-us/red_hat_codeready_workspaces/2.4/html/end-user_guide/developer-workspaces_crw#what-is-a-devfile_crw
