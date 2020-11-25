@@ -127,57 +127,42 @@ Feel free to try debugging this code on your own.  Click below when you're ready
 
   In python, the `is` operator tests if the objects have the same identity.  The integer `1` and boolean `True` do not have the same identity, so `1 is True` returns `False`.
 
-  What we really mean is `if prediction == 1`.  Replace `if prediction is True` to `if prediction == 1` on lines 39 and 41.
+  To fix this, replace `if prediction is True` to `if prediction == 1` on lines 39 and 41.  It should look like this:
 
+  ![Prediction Code Fixed](images/crw_prediction_code_fixed.png)
+  
 </details>
 
-After you make the necessary changes, Flask will auto-reload the code.
+After you make the necessary changes, Flask will auto-reload for you.
 
-> If you look in `python terminal 0`, you should see:
+Let's try sending the sample requests again.
+
+> Execute the following steps in your CodeReady Workspace terminal.
 
 ```
- * Detected change in '/projects/serverless-workshop-code/model/prediction/prediction.py', reloading
- * Restarting with stat
- * Debugger is active!
-```
-
-Send the sample requests:
-
-```execute
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
-> Output
+This returns `No disaster`.
 
 ```
-<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Message>No disaster</Message>
-</Response>
-```
-
-```execute
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
-> Output
+This returns `This is a disaster!`
 
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<Response>
-  <Message>This is a disaster!</Message>
-</Response>
-```
+Perfect, this worked as intended.  You fixed the issue, and you are ready to deploy this to OpenShift Serverless.
 
-Perfect, that worked as intended.  You fixed the issue, and you are ready to deploy this to OpenShift Serverless.
+## Deploy Private Service
 
-### Deploy Private Service
+> Execute the following in your workshop terminal
 
 
 
 
-### Deploy Live
+## Deploy Live
 
+> Execute the following in your workshop terminal
 
 
 
