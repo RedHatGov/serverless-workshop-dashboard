@@ -78,9 +78,106 @@ export AWS_ACCESS_KEY_ID=
 export AWS_SECRET_ACCESS_KEY= 
 export ENDPOINT_URL=
 export BUCKET_NAME=
-export FLASK_APP=prediction.py
 export MODEL_FILE_NAME=model.pkl
 ```
+
+Run the app locally in your CodeReady Workspace terminal:
+
+```
+FLASK_APP=prediction.py FLASK_ENV=development flask run
+```
+
+> Output
+
+```
+ * Serving Flask app "prediction.py"
+ * Environment: development
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+```
+
+The application is now running locally in CodeReady Workspace.  Open another terminal using the 'python' development container.  You should see:
+
+![CRW Python Terminal Two](images/crw_python_terminal_two.png)
+
+Send a sample request.  This should return 'No disaster':
+
+```
+curl -X POST -d 'Body=nothing to see here' 'http://localhost:5000/predict' | xmllint --format -
+```
+
+Send another sample request.
+
+```execute
+curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
+```
+
+Ok, this returns 'No disaster' when it should return 'This is a disaster!'  You were able to replicate the bug in this IDE.
+
+Feel free to try debugging this code on your own.  Click below when you're ready to see the solution:
+
+<details>
+  <summary>Click here for the solution</summary>
+
+  Lines 39 and 41 have the line `if prediction is True`.
+
+  `prediction` is `1` if the model determines a disaster was detected.  This means the code is executing `if 1 is True`.  
+
+  In python, the `is` operator tests if the objects have the same identity.  The integer `1` and boolean `True` do not have the same identity, so `1 is True` returns `False`.
+
+  What we really mean is `if prediction == 1`.  Replace `if prediction is True` to `if prediction == 1` on lines 39 and 41.
+
+</details>
+
+After you make the necessary changes, Flask will auto-reload the code.
+
+> If you look in `python terminal 0`, you should see:
+
+```
+ * Detected change in '/projects/serverless-workshop-code/model/prediction/prediction.py', reloading
+ * Restarting with stat
+ * Debugger is active!
+```
+
+Send the sample requests:
+
+```execute
+curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
+```
+
+> Output
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Message>No disaster</Message>
+</Response>
+```
+
+```execute
+curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
+```
+
+> Output
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Message>This is a disaster!</Message>
+</Response>
+```
+
+Perfect, that worked as intended.  You fixed the issue, and you are ready to deploy this to OpenShift Serverless.
+
+### Deploy Private Service
+
+
+
+
+### Deploy Live
+
 
 
 
@@ -88,3 +185,4 @@ export MODEL_FILE_NAME=model.pkl
 
 [1]: https://www.redhat.com/en/technologies/jboss-middleware/codeready-workspaces
 [2]: https://access.redhat.com/documentation/en-us/red_hat_codeready_workspaces/2.4/html/end-user_guide/developer-workspaces_crw#what-is-a-devfile_crw
+[3]: https://knative.dev/docs/serving/cluster-local-route/
