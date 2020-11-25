@@ -102,19 +102,23 @@ The application is now running locally in CodeReady Workspace.  Open another ter
 
 ![CRW Python Terminal Two](images/crw_python_terminal_two.png)
 
+> Execute the following steps in your second CodeReady Workspace terminal.
+
 Send a sample request.  This should return 'No disaster':
 
 ```
 curl -X POST -d 'Body=nothing to see here' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
-Send another sample request.
+Send another sample request.  
 
 ```execute
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
 Ok, this returns 'No disaster' when it should return 'This is a disaster!'  You were able to replicate the bug in this IDE.
+
+<br>
 
 Feel free to try debugging this code on your own.  Click below when you're ready to see the solution:
 
@@ -132,6 +136,8 @@ Feel free to try debugging this code on your own.  Click below when you're ready
   ![Prediction Code Fixed](images/crw_prediction_code_fixed.png)
   
 </details>
+
+<br>
 
 After you make the necessary changes, Flask will auto-reload for you.
 
