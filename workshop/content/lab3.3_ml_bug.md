@@ -204,6 +204,12 @@ PREDICTION_URL=$(oc get route.serving.knative.dev prediction --template='{{.stat
 echo $PREDICTION_URL
 ```
 
+> Output (sample)
+
+```
+http://prediction.userx.svc.cluster.local
+```
+
 > Notice the endpoint is now private to the cluster.  The workshop terminal is running in OpenShift, so we can send requests directly from the workshop terminal.
 
 Send a sample request.  This should return 'No disaster':
@@ -237,6 +243,12 @@ PREDICTION_URL=$(oc get route.serving.knative.dev prediction --template='{{.stat
 echo $PREDICTION_URL
 ```
 
+> Output (sample)
+
+```
+http://prediction-userx.apps.cluster-xxxx.xxxx.example.opentlc.com
+```
+
 > Notice the endpoint is now public to the outside world.
 
 Send a sample request.  This should return 'No disaster':
@@ -250,6 +262,10 @@ Send another sample request.  This should return 'This is a disaster!':
 ```execute
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' $PREDICTION_URL | xmllint --format -
 ```
+
+## Clean Up
+
+Close your CodeReady Workspace IDE.  You can complete the rest of the labs in your workshop terminal.
 
 ## Summary
 

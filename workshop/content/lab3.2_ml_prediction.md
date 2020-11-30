@@ -121,7 +121,7 @@ The NLP model should have predicted that this is legitimate.  What happened?
 
 ## Summary
 
-You built the `NLP Prediction Service` and deployed it to OpenShift using OpenShift Serverless and our pre-built ML model.  However, the prediction service seems to be broken.  We will debug and figure out what is going on in the next section.
+You built the `NLP Prediction Service` and deployed it to OpenShift using OpenShift Serverless and our pre-built ML model.  However, the prediction service seems to be broken.  We will debug and figure out what is going on in the next lab.
 
 [1]: https://www.redhat.com/en/technologies/cloud-computing/openshift-container-storage
 [2]: https://www.kaggle.com/vbmokin/nlp-with-disaster-tweets-cleaning-data
