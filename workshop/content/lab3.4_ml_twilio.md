@@ -37,6 +37,8 @@ Here are the instructions:
 4. Under 'A Message Comes In, select 'Webhook' and paste in your prediction endpoint
 5. Under 'A Message Comes In', make sure 'HTTP Post' is selected
 
+It should look like this:
+
 ![Twilio Config](images/twilio_config.png)
 
 Make sure to click 'Save' once you are done.  You should see a blue banner confirmation:
