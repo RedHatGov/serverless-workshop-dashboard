@@ -26,7 +26,7 @@ export AWS_SECRET_ACCESS_KEY=$(oc get secret serverless-workshop-ml -o jsonpath=
 Set the endpoint and bucket name:
 
 ```execute
-export ENDPOINT_URL=https://$(oc get route s3 -n openshift-storage --template='{{.spec.host}}')
+export ENDPOINT_URL=$(oc get route s3 -n openshift-storage --template='https://{{.spec.host}}')
 export BUCKET_NAME=$(oc get cm serverless-workshop-ml -o jsonpath="{.data.BUCKET_NAME}")
 ```
 
