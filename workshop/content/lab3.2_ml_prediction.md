@@ -1,8 +1,8 @@
 # Build machine learning API
 
-In this lab, you will build and deploy the `NLP Prediction Service` using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Container Storage (OCS)][1].  
+In this lab, you will build and deploy the NLP Prediction Service using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Container Storage][1].  
 
-How did we create this model?  The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled `1` (the tweet is about a real disater) or `0` (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multinomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
+The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled **1** (the tweet is about a real disater) or **0** (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multinomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
 
 Don't worry too much about the ML details.  The model isn't perfect (it's not super accurate and the data is skewed in favor of 'tweet' messages), but it's a good starting point.  More importantly, we gave you a model you can use to run the prediction service!
 
@@ -38,21 +38,19 @@ aws2 --endpoint $ENDPOINT_URL s3 ls s3://$BUCKET_NAME
 
 You should see the `model.pkl` file in the output.
 
-Awesome, you have the ML model ready to go.  We also wrote the code for the prediction service.  This will load the ML model, run a REST `/predict` endpoint, and respond, indicating if the model predicted a legitimate disaster message.  Take a look at the code [here][5].
+Awesome, the ML model is ready to go.  The code for the prediction service was already written for you.  This will load the ML model, run a REST endpoint, and respond, indicating if the model predicted a legitimate disaster message.  The prediction code is [here][5] if you want to take a look.
 
 ## Prediction Service
 
-In order to deploy the `NLP Prediction Service`, we need to build the container image.
+Let's deploy the NLP Prediction Service on OpenShift Serverless.
 
-Build the container image using `s2i`:
+Build the container image:
 
 ```execute
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
 ```
 
-Wait until the build completes.
-
-List the pods:
+Wait until the build completes:
 
 ```execute
 oc get pods
@@ -115,13 +113,13 @@ Send another sample request.  This should return 'This is a disaster!':
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' $PREDICTION_URL | xmllint --format -
 ```
 
-Wait a minute.  We sent the message 'massive flooding and thunderstorms taking place' and it returned 'No disaster'.  
+Wait a minute.  We sent the message 'massive flooding and thunderstorms taking place' and it returned 'No disaster' instead!
 
-The NLP model should have predicted that this is legitimate.  What happened?
+The NLP model should have predicted that this is a legitimate message.  What happened?
 
 ## Summary
 
-You built the `NLP Prediction Service` and deployed it to OpenShift using OpenShift Serverless and our pre-built ML model.  However, the prediction service seems to be broken.  We will debug and figure out what is going on in the next lab.
+You built the NLP Prediction Service and deployed it using OpenShift Serverless with our pre-built ML model.  However, the prediction service seems to be broken.  We will debug and figure out what is going on in the next lab.
 
 [1]: https://www.redhat.com/en/technologies/cloud-computing/openshift-container-storage
 [2]: https://www.kaggle.com/vbmokin/nlp-with-disaster-tweets-cleaning-data

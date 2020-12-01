@@ -1,6 +1,6 @@
 # Oops, there's a major bug!
 
-In this lab, you will debug the `NLP Prediction Service` using [CodeReady Workspaces][1], an in-browser IDE running on OpenShift.  We have defined a workspace for you using a [devfile][2], which CodeReady Workspaces uses to create your workspace.  After debugging, you will release a new version of the code using OpenShift Serverless.
+In this lab, you will debug the NLP Prediction Service using [CodeReady Workspaces][1], an in-browser IDE running on OpenShift.  We have defined a workspace for you using a [devfile][2], which CodeReady Workspaces uses to create your workspace.  After debugging, you will release a new version of the code using OpenShift Serverless.
 
 ## Prep
 
@@ -120,14 +120,14 @@ Ok, this returns 'No disaster' when it should return 'This is a disaster!'  You 
 
 <br>
 
-Feel free to try debugging this code on your own.  Click below when you're ready to see the solution:
+Try to debug this code on your own.  Click below when you're ready to see the solution:
 
 <details>
   <summary>Click here for the solution</summary>
 
   Lines 39 and 41 have the line `if prediction is True`.
 
-  `prediction` is `1` if the model determines a disaster was detected.  This means the code is executing `if 1 is True`.  
+  'prediction' is '1' if the model determines a disaster was detected.  This means the code is executing `if 1 is True`.  
 
   In python, the `is` operator tests if the objects have the same identity.  The integer `1` and boolean `True` do not have the same identity, so `1 is True` returns `False`.
 
@@ -149,13 +149,13 @@ Let's try sending the sample requests again.
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
-This returns `No disaster`.
+This returns 'No disaster'.
 
 ```
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
-This returns `This is a disaster!`
+This returns 'This is a disaster!'
 
 Perfect, this worked as intended.  You fixed the issue, and you are ready to deploy this to OpenShift Serverless.
 
@@ -175,9 +175,7 @@ Build the container image:
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name prediction-2 --context-dir=model/prediction --to prediction
 ```
 
-Wait until the build completes.
-
-List the pods:
+Wait until the build completes:
 
 ```execute
 oc get pods
@@ -207,7 +205,7 @@ echo $PREDICTION_URL
 > Output (sample)
 
 ```
-http://prediction.userx.svc.cluster.local
+http://prediction.userx.svc.cluster.local/predict
 ```
 
 > Notice the endpoint is now private to the cluster.  The workshop terminal is running in OpenShift, so we can send requests directly from the workshop terminal.
@@ -246,7 +244,7 @@ echo $PREDICTION_URL
 > Output (sample)
 
 ```
-http://prediction-userx.apps.cluster-xxxx.xxxx.example.opentlc.com
+http://prediction-userx.apps.cluster-xxxx.xxxx.example.opentlc.com/predict
 ```
 
 > Notice the endpoint is now public to the outside world.
@@ -269,7 +267,7 @@ Close your CodeReady Workspace IDE.  You can complete the rest of the labs in yo
 
 ## Summary
 
-You debugged the `NLP Prediction Service` using CodeReady Workspaces.  Once the fix was identified, you updated the prediction service with the new code and tested it using a private endpoint.  Finally, once you verified that everything was working as intended, you released it live for external use.
+You debugged the NLP Prediction Service using CodeReady Workspaces.  Once the fix was identified, you updated the prediction service with the new code and tested it using a private endpoint.  Finally, once you verified that everything was working as intended, you released it live for external use.
 
 [1]: https://www.redhat.com/en/technologies/jboss-middleware/codeready-workspaces
 [2]: https://access.redhat.com/documentation/en-us/red_hat_codeready_workspaces/2.4/html/end-user_guide/developer-workspaces_crw#what-is-a-devfile_crw

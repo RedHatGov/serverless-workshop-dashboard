@@ -1,10 +1,10 @@
 # Integrate with Twilio
 
-To complete the new user experience, we need to integrate the `NLP Prediction Service` with [Twilio][1].  Twilio provides the communciations API so that our users can text a phone number and receive a reply from our service.  In this lab, you will setup an account on Twilio and configure a webhook to `NLP Prediction Service` running on OpenShift Serverless.
+To complete the new user experience, we need to integrate the NLP Prediction Service with [Twilio][1].  Twilio provides the communciations API so that our users can text a phone number and receive a reply from our service.  In this lab, you will setup an account on Twilio and configure a webhook to NLP Prediction Service running on OpenShift Serverless.
 
 ## Setup
 
-The first step is to create a free trial account on Twilio.  You will need to enter and verify your personal phone number.  In your trial account, you will also obtain a Twilio phone number.  Your users will message this phone number to talk to the `NLP Prediction Service`.
+The first step is to create a free trial account on Twilio.  You will need to enter and verify your personal phone number.  In your trial account, you will also obtain a Twilio phone number.  Your users will message this phone number to talk to the NLP Prediction Service.
 
 Note: 
 
@@ -20,7 +20,7 @@ Here are the instructions:
 
 ## Configure
 
-Now that you have a Twilio phone number, you need to configure a webhook URL.  Whenever a message arrives to your Twilio phone number, it will call the webhook URL and send back a reply.  In this case, the webhook URL is your `NLP Prediction Service` endpoint.
+Now that you have a Twilio phone number, you need to configure a webhook URL.  Whenever a message arrives to your Twilio phone number, it will call the webhook URL and send back a reply.  In this case, the webhook URL is your prediction service endpoint.
 
 Make note of your prediction endpoint:
 
@@ -62,7 +62,7 @@ Text 'Massive flooding and thunderstorms taking place' and you should see:
 
 ## Summary
 
-You integrated the `NLP Prediction Service` with Twilio.  Now, your users can text a phone number to interact with your new service.  But we're not done yet!  Your users can't request for help based on the response.  In the next lab, you will complete the end user experience with one more integration.
+You integrated the NLP Prediction Service with Twilio.  Now, your users can text a phone number to interact with your new service.  But you're not done yet!  Your users can't request for help based on the response.  In the next lab, you will complete the end user experience with one more integration.
 
 [1]: https://www.twilio.com/
 [2]: https://www.twilio.com/referral/SoYU8B
