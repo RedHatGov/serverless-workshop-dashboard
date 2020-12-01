@@ -1,6 +1,6 @@
 # Integrate with Twilio
 
-To complete the new user experience, we need to integrate the `NLP Prediction Service` with [Twilio][1].  Twilio provides the communciations API so that our users can text a phone number and receive a reply from our service.
+To complete the new user experience, we need to integrate the `NLP Prediction Service` with [Twilio][1].  Twilio provides the communciations API so that our users can text a phone number and receive a reply from our service.  In this lab, you will setup an account on Twilio and configure a webhook to `NLP Prediction Service` running on OpenShift Serverless.
 
 ## Setup
 

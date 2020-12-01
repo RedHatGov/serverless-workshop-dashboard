@@ -1,5 +1,13 @@
 # Summary
 
-Congrats, you extended the application with a new machine learning functionality!  You also debugged the code in CodeReady Workspace, used local routes and Revisions to rollout the new release, and integrated with a React app and Twilio.
+Congratulations!  You successfully added a new machine learning capability to the Emergency Response demo using OpenShift Serverless.  
 
+The purpose of these labs was to demonstrate how you could leverage OpenShift Serverless to enhance applications with innovative features.  Let's summarize what you did to create this innovative experience for your end users:
 
+1. Deployed the prediction service, powered by a Natural Language Processing model, on OpenShift Serverless
+2. Debugged in CodeReady Workspace and used OpenShift Serverless to rollout new releases
+3. Integrated the prediction service with Twilio and Lifeline
+
+Here is the architecture again that you built:
+
+![Architecture](images/ml_architecture_flow.png)
