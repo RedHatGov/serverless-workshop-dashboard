@@ -4,7 +4,7 @@ metadata:
   name: mykafka-source
 spec:
   consumerGroup: knative-group
-  bootstrapServers: my-cluster-kafka-bootstrap.kafka:9092
+  bootstrapServers: my-cluster-kafka-bootstrap.user-10:9092
   topics: my-topic
   sink:
     ref:

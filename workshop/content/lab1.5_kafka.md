@@ -42,11 +42,10 @@ oc wait kafka/my-cluster --for=condition=Ready --timeout=300s
 # In one terminal, run the following producer
 oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap:9092 --topic my-topic
 
-# In another terminal, run the following consumer
+# Wait for the producer to come up, and then in another terminal, run the following consumer
 oc run kafka-consumer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-consumer.sh --bootstrap-server my-cluster-kafka-bootstrap:9092 --topic my-topic --from-beginning
 
 # Whatever you type in the producer terminal should appear in the consumer terminal.
-# When done, quit both the producer and consumer
 ```
 
 ## Knative Eventing
@@ -171,10 +170,11 @@ my-topic                                                      10           1
 Now we create a KafkaSource instance that ties our topic to our sink.
 
 ```
+# Update line 7 with your user project
 oc apply -f ./kafka/kafka-source-to-sink.yml
 ```
 
-Verify the pod gets created
+Verify the pod gets created.
 
 ```
 watch oc get pods
@@ -185,35 +185,62 @@ NAME                                          READY  STATUS   RESTARTS  AGE
 mykafka-source-vxs2k-56548756cc-j7m7v         1/1    Running  0         11s
 ```
 
-
-TODO:
-1.  produce events
-2.  see logs `stern eventinghello -c user-container`
-3.  scale
+### See It In Action
+Now let's see events flow through the Serverless system. Create the kafka producer again.
 
 ```
-oc -n kafka run kafka-spammer --image=quay.io/rhdevelopers/kafkaspammer:1.0.2
-watch oc -n kafka get pods
-KAFKA_SPAMMER_POD=$(kubectl -n kafka get pod -l "run=kafka-spammer" -o jsonpath='{.items[0].metadata.name}')
-oc -n kafka exec -it $KAFKA_SPAMMER_POD -- /bin/sh
+# In one terminal run:
+oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap:9092 --topic my-topic
+```
+
+```
+# In another terminal run
+stern eventinghello -c user-container
+```
+
+Every message you type into the producer, will this time appear in the knative service logs, along with other CloudEvent metadata.
+
+### Turn on the Firehose
+Time to add more events and watch the autoscaling capabilities of Serverless keep up with the events. First, in one terminal, let's watch the pods.
+
+```
+watch oc get pods
+```
+
+```
+# In another terminal, run the kafka-spammer. You should see the new pod in the `watch oc get pods` terminal.
+oc run kafka-spammer --image=quay.io/rhdevelopers/kafkaspammer:1.0.2
+```
+
+Now let's increase the number of events. In the same terminal you ran the `kafka-spammer`, this time run:
+
+```
+KAFKA_SPAMMER_POD=$(oc get pod -l "run=kafka-spammer" -o jsonpath='{.items[0].metadata.name}')
+oc exec -it $KAFKA_SPAMMER_POD -- /bin/sh
 curl localhost:8080/3
 ```
 
+Quickly jump back over to the `watch oc get pods` terminal and see the new pods.
+
 ```
 NAME                                                              READY   STATUS    RESTARTS   AGE
-camel-k-operator-65db5d46bb-llc6g                                 1/1     Running   0          20h
-eventinghello-v1-deployment-57c686cc96-6k9r2                      2/2     Running   0          15s
-eventinghello-v1-deployment-57c686cc96-jcv8b                      2/2     Running   0          13s
-eventinghello-v1-deployment-57c686cc96-lh8xr                      2/2     Running   0          15s
-eventinghello-v1-deployment-57c686cc96-n2slh                      2/2     Running   0          16s
-kafkasource-mykafka-source-a29a50ca-4d76-4e65-8b96-1507372bfphb   1/1     Running   0          119s
+kafka-spammer                                                     1/1     Running   0          6m30s
+eventinghello-v1-deployment-f48945f8b-42scl                       2/2     Running   0          9s
+eventinghello-v1-deployment-f48945f8b-68t5j                       2/2     Running   0          9s
+eventinghello-v1-deployment-f48945f8b-cxtbd                       2/2     Running   0          7s
+kafkasource-mykafka-source-e5034260-3f61-4496-ab81-aa98f4fjmclk   1/1     Running   0          15m
+my-cluster-entity-operator-6ddccfddbd-lvnsj                       3/3     Running   0          28m
+my-cluster-kafka-0                                                2/2     Running   0          28m
+my-cluster-zookeeper-0                                            1/1     Running   0          29m
 ```
 
-4.  Cleanup
+And if you wait ~90s, you should see them all scale down to 0.  When you are done, you can stop watching the pods (ctrl-c) and `exit` out of the kafka-spammer pod.
+
+###  Cleanup
 
 ```
 oc delete pod kafka-spammer
 oc delete -f ./kafka/kafka-source-to-sink.yml
 oc delete -f ./kafka/kafka-sink.yml
-oc delete -f kafka-topic.yml
+oc delete -f ./kafka/kafka-topic.yml
 ```

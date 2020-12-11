@@ -9,7 +9,7 @@ data:
       apiVersion: messaging.knative.dev/v1alpha1
       kind: InMemoryChannel
     namespaceDefaults:
-      user-1:
+      user-10:
         apiVersion: messaging.knative.dev/v1alpha1
         kind: KafkaChannel
         spec:

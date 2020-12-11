@@ -89,3 +89,13 @@ tar -xf <file>
 ```
 kn version
 ```
+
+## `stern` CLI Installation
+
+`stern` is a great tool to easily be able to view logs for a particular container.
+
+1.  Download the newest release from [github.com](https://github.com/wercker/stern/releases).  Find your operating system and download it.
+
+2.  You should be able to double click the installer to install.
+
+Note: If you are on a macOS and have Homebrew installed, you can just run `brew install stern`.
