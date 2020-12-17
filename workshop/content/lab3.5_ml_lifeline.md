@@ -114,7 +114,7 @@ The application will automatically capture your geo-location.  Scroll down and e
 
 Click 'Share My Info & Get Help' once you are ready.  You should get a response that help is on the way!
 
-> TODO: Add image for Lifeline app response
+![Lifeline Submission](images/lifeline_submit.png)
 
 ## Summary
 
