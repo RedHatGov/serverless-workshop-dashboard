@@ -112,7 +112,7 @@ The application will automatically capture your geo-location.  Scroll down and e
 
 ![Lifeline Additional Info](images/lifeline_additional.png)
 
-Click 'Share My Info & Get Help' once you are ready.  You should get a response that help is on the way!
+Click 'Share My Info & Get Help' once you are ready.  You should get a response that your location has been shared.
 
 ![Lifeline Submission](images/lifeline_submit.png)
 
