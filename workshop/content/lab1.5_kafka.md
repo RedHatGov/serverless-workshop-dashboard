@@ -12,7 +12,6 @@ From the event source, the CloudEvent is sent to a Channel. Channels then send C
 
 ![Source to Sink](./images/serverless-eventing-channels-subs.png)
 
-
 ## Configure Kafka
 Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running:
 
@@ -29,7 +28,7 @@ oc new-project user-<user-number>
 
 2.  Create the Kafka cluster
 ```
-oc apply -f ./kafka/kafka-cluster.yml
+oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-cluster.yml
 ```
 
 3.  Wait for creation
@@ -52,18 +51,10 @@ oc run kafka-consumer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --r
 The first thing we need to configure is the Knative Event Source. Since we are interested in consuming Kafka events, we will need to use the `KafkaSource`.
 
 ### Deploy `KafkaSource`
-We need to deploy the KafkaSource eventing source so that we can create an instance of it later.
-
-To deploy run:
+The KafkaSource eventing source as already been installed.  Verify by running:
 
 ```
-oc apply -f ./kafka/kafka-source.yml
-```
-
-To validate we can see the `kafka-controller-manager`
-
-```
-watch "oc get pods -n knative-sources"
+oc get pods -n knative-sources
 ```
 
 ```
@@ -71,10 +62,10 @@ NAME                                        READY   STATUS    RESTARTS   AGE
 kafka-controller-manager-67cb856b5c-79kwz   1/1     Running   0          4m23s
 ```
 
-and the eventing pods
+Also verify that the eventing knative pods are running:
 
 ```
-watch "oc get pods -n knative-eventing"
+oc get pods -n knative-eventing
 ```
 
 ```
@@ -89,7 +80,7 @@ mt-broker-ingress-6b9f847866-bhk5w                 1/1     Running     0        
 sugar-controller-594784974b-rpvsm                  1/1     Running     0          3d13h
 ```
 
-We can also see the new api resources, starting first with the eventing sources.
+We can also see the api resources, starting first with the eventing sources.
 
 ```
 oc api-resources --api-group='sources.knative.dev'
@@ -123,15 +114,15 @@ Channels are the mechanism that actually forward events through the system, from
 To change the channel for our project, we create a new config map.
 
 ```
-# edit line 12 and change it to your project name `user-<user-number>`, then apply it
-oc apply -f ./kafka/kafka-channel-configmap.yml
+# edit the command below to add in your user number.  user-10 is just a sample user that must be replaced
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-channel-configmap.yml | sed 's/user-10/user-<user-number>/' | oc apply -f -
 ```
 
 ### Create Sink
 We have an eventing source and a channel. The last thing we need is a sink, which will be a Serverless service. Let's create one now:
 
 ```
-oc apply -f ./kafka/kafka-sink.yml
+oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
 Verify that it is there
@@ -151,7 +142,7 @@ When Serverless services are created they are initially spun up, which is why we
 We have a Kafka topic, we should now go ahead and create the Kafka topic.
 
 ```
-oc apply -f ./kafka/kafka-topic.yml
+oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml
 ```
 
 Verify it was created:
@@ -170,8 +161,8 @@ my-topic                                                      10           1
 Now we create a KafkaSource instance that ties our topic to our sink.
 
 ```
-# Update line 7 with your user project
-oc apply -f ./kafka/kafka-source-to-sink.yml
+# edit the command below to add in your user number.  user-10 is just a sample user that must be replaced
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed 's/user-10/user-<user-number>/' | oc apply -f -
 ```
 
 Verify the pod gets created.
@@ -220,7 +211,7 @@ oc exec -it $KAFKA_SPAMMER_POD -- /bin/sh
 curl localhost:8080/3
 ```
 
-Quickly jump back over to the `watch oc get pods` terminal and see the new pods.
+Jump back over to the `watch oc get pods` terminal and see the new pods.
 
 ```
 NAME                                                              READY   STATUS    RESTARTS   AGE
@@ -240,7 +231,12 @@ And if you wait ~90s, you should see them all scale down to 0.  When you are don
 
 ```
 oc delete pod kafka-spammer
-oc delete -f ./kafka/kafka-source-to-sink.yml
-oc delete -f ./kafka/kafka-sink.yml
-oc delete -f ./kafka/kafka-topic.yml
+
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed 's/user-10/user-<user-number>/' | oc delete -f -
+
+oc delete -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml
+
+oc delete -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
+
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-channel-configmap.yml | sed 's/user-10/user-<user-number>/' | oc delete -f -
 ```
