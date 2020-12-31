@@ -4,52 +4,16 @@ As a preqrequisite to running these labs, you will need access to an OpenShift v
 
 OpenShift Serverless install can be completely done with Operator Hub webconsole or the CLI - we are going to give you a little taste of both by adding the operator via webconsole and then the rest via CLI
 
-## Operator Installation
+## Knative Serving
+Knative serving has already been installed for you.  Verify it now.
 
-In OpenShift, installation of Knative is very easy.  You just need to find and install the OpenShift Serverless Operator.
-
-![OpenShift Serverless Operator Hub](images/serverless_operator_hub.png)*Operator Hub*
-
-Then click install.
-
-![Install OpenShift Serverless Operator](images/serverless_install_operator.png)*OpenShift Serverless Operator*
-
-Next make sure to install in all namespaces.  Select the latest Update Channel made available to you.  For the purposes of this demo, we'll pick the Manual approval strategy.  Lastly, click Subscribe.
-
-![Subscribe to OpenShift Serverless Operator](images/serverless_create_subscription.png)*Subscribe*
-
-Wait a few minutes and eventually you will see it show up as Installed Operator with the status of Succeeded
-
-![Subscribe to OpenShift Serverless Operator](images/serverless_installed_operator.png)*Installed*
-
-
-## Knative Serving Installation
-
-1.  Create the `knative-serving` namespace
-```
-oc create namespace knative-serving
-```
-
-2.  Create a `serving.yaml`
-```
-apiVersion: operator.knative.dev/v1alpha1
-kind: KnativeServing
-metadata:
-    name: knative-serving
-    namespace: knative-serving
-```
-
-3.  Apply the `serving.yaml` file
-```
-oc apply -f serving.yaml
-```
-
-4.  Verify installation
+1.  Verify installation
 ```
 oc get knativeserving.operator.knative.dev/knative-serving -n knative-serving --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
 ```
 
-Wait a while and the output will look like:
+The output will look like:
+
 ```
 DependenciesInstalled=True
 DeploymentsAvailable=True
@@ -57,7 +21,8 @@ InstallSucceeded=True
 Ready=True
 ```
 
-5.  Verify pod creation
+2.  Verify serving pods
+
 ```
 oc get pods -n knative-serving
 ```
@@ -77,41 +42,24 @@ webhook-75d6b55d76-zbp5f            1/1     Running     0          38s
 ```
 
 
-## Knative Eventing Installation
+## Knative Eventing
+Knative eventing has already been installed for you.  Verify it now.
 
-1.  Create the `knative-eventing` namespace
-```
-oc create namespace knative-eventing
-```
-
-2.  Create an `eventing.yaml` file
-```
-apiVersion: operator.knative.dev/v1alpha1
-kind: KnativeEventing
-metadata:
-    name: knative-eventing
-    namespace: knative-eventing
-```
-
-3.  Apply the `eventing.yaml` file
-```
-oc apply -f eventing.yaml
-```
-
-4.  Verify installation
+1.  Verify installation
 ```
 oc get knativeeventing.operator.knative.dev/knative-eventing \
   -n knative-eventing \
   --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
 ```
 
-Wait a while and the output will look like:
+The output will look like:
 ```
 InstallSucceeded=True
 Ready=True
 ```
 
-5.  Verify pod creation
+2.  Verify eventing pods
+
 ```
 oc get pods -n knative-eventing
 ```
