@@ -259,3 +259,7 @@ curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/ma
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
 ```
+
+## Summary
+
+You were able to setup your own Kafka Topic and tie a Serverless application to it.  You sent messages to this topic through the command line as well as through a spammer utility.  For each message, the Serverless application you configured would print out the message it received.  When no messages were being sent from the topic, the Serverless application would idle and then be terminated, freeing up the resources it required.  Conversely, when the topic was flooded with messages, more Serverless applications were spun up dynamically in order to handle the load.
