@@ -16,7 +16,6 @@ From the event source, the CloudEvent is sent to a Channel. Channels then send C
 Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running:
 
 ```
-oc project kafka
 oc get operators -o name | grep amq
 ```
 
@@ -29,7 +28,7 @@ operator.operators.coreos.com/amq-streams.openshift-operators
 Also verify the Kafka cluster exists.
 
 ```
-oc get kafka
+oc get kafka -n kafka
 ```
 
 You should see `my-cluster`.
@@ -105,10 +104,9 @@ Channels are the mechanism that actually forward events through the system, from
 
 
 ### Verify Channel
-Let's verify that we are configured to use the `KafkaChannel` for our `kafka` namespace.
+Let's verify that we are configured to use the `KafkaChannel`.
 
 ```
-oc project kafka
 oc get configmap config-default-kafka-channel -o yaml -n knative-eventing
 ```
 
@@ -118,9 +116,6 @@ You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snip
 apiVersion: v1
 data:
   default-ch-config: |
-    clusterDefault:
-      apiVersion: messaging.knative.dev/v1alpha1
-      kind: InMemoryChannel
     namespaceDefaults:
       kafka:
         apiVersion: messaging.knative.dev/v1alpha1
@@ -130,34 +125,34 @@ data:
 ### Create Sink
 We will now create a sink, a final destination for Kafka events flowing through the system. In this case, it will be a Serverless service. Let's create one now.
 
-First let's set a variable indicating your user number that should have been assigned to you at the start of this lab.  This step is important because all future commands will reference this variable.
+First let's make sure you are still in the right project.
 
 ```
-# REPLACE WITH YOUR USER NUMBER
-export USER_NUMBER=100000
+oc project
+# Using project "user-$USER_NAME" on server...
 ```
 
 Now we can create our sink.
 
 ```
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/g" | oc apply -f -
+oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
 Verify that it is there:
 
 ```
-oc get ksvc | grep eventinghello-$USER_NUMBER
+oc get ksvc
 ```
 
 ```
-NAME                          URL                                               LATESTCREATED                   LATESTREADY        READY   REASON
-eventinghello-<user-number>   http://eventinghello-xyz.sandbox373.opentlc.com   eventinghello-<user-number>v1   eventinghello-v1   True
+NAME            URL                                               LATESTCREATED      LATESTREADY        READY   REASON
+eventinghello   http://eventinghello-xyz.sandbox373.opentlc.com   eventinghello-v1   eventinghello-v1   True
 ```
 
 When Serverless services are created they are initially spun up, which is why we can see the logs:
 
 ```
-stern eventinghello-$USER_NUMBER -c user-container`
+stern eventinghello -c user-container`
 ```
 
 Note, if you didn't run the `stern` command within ~90s of creating the sink, the container might have spun back down, but that's ok, you can keep going.
@@ -166,36 +161,37 @@ Note, if you didn't run the `stern` command within ~90s of creating the sink, th
 We have a Kafka topic, we should now go ahead and create the Kafka topic.
 
 ```
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/g" | oc apply -f -
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
 Verify it was created:
 
 ```
-oc get kafkatopics | grep my-topic-$USER_number
+oc get kafkatopics
+# a nice shortcut is `oc get kt`
 ```
 
 ```
 NAME                                                                        PARTITIONS   REPLICATION FACTOR
-my-topic-<user-number>                                                      10           1
+my-topic-<user_number>                                                      10           1
 ```
 
 ### Create KafkaSource Instance
 Now we will create a KafkaSource instance that ties our topic to our sink.
 
 ```
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/g" | oc apply -f -
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
 Verify that it was created.
 
 ```
-oc get kafkasource | grep mykafka-source-$USER_NUMBER
+oc get kafkasource
 ```
 
 ```
-NAME                             TOPICS                     BOOTSTRAPSERVERS                        READY   REASON   AGE
-mykafka-source-<user-number>     my-topic-<user-number>     my-cluster-kafka-bootstrap.kafka:9092   True             76s
+NAME               TOPICS                     BOOTSTRAPSERVERS                        READY   REASON   AGE
+mykafka-source     my-topic-<user-number>     my-cluster-kafka-bootstrap.kafka:9092   True             76s
 ```
 
 ### See It In Action
@@ -204,35 +200,42 @@ Now let's see events flow through the Serverless system. Create the kafka produc
 In one terminal run:
 
 ```
-oc run kafka-producer-$USER_NUMBER -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap:9092 --topic my-topic-$USER_NUMBER
+oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap.kafka:9092 --topic my-topic-$USER_NUMBER
 ```
 
 In another terminal run
 
 ```
-stern eventinghello-$USER_NUMBER -c user-container
+stern eventinghello -c user-container
 ```
 
 Every message you type into the producer, will appear in the knative service logs (that you are viewing through `stern`), along with other CloudEvent metadata.
+
+Let's make sure the pods were properly deleted.
+
+```
+oc delete kafka-producer
+# it's ok to get "error: the server doesn't have a resource type "kafka-producer""
+```
 
 ### Turn on the Firehose
 Time to add more events and watch the autoscaling capabilities of Serverless keep up with the events. First, in one terminal, let's watch the pods.
 
 ```
-watch "oc get pods | grep 'eventinghello-$USER_NUMBER'"
+watch oc get pods
 ```
 
 In another terminal, run the kafka-spammer.
 
 ```
-oc run kafka-spammer-$USER_NUMBER -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=1
+oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=1
 ```
 
 In the first terminal watching the pods, you should see 1 or more new pods.
 
 ```
-NAME                                                                            READY   STATUS    RESTARTS   AGE
-eventinghello-<user-number>-v1-deployment-f48945f8b-56sal                       2/2     Running   0          9s
+NAME                                                              READY   STATUS    RESTARTS   AGE
+eventinghello-v1-deployment-f48945f8b-56sal                       2/2     Running   0          9s
 ```
 
 Wait ~90s for that pod(s) to go away and then let's increase the number of messages sent by changing the `TIMES` environment variable. In the same terminal you ran the `kafka-spammer`, this time run let's send 10 messages.
@@ -257,7 +260,7 @@ And if you wait ~90s, you should see them all scale down to 0.  When you are don
 ```
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
+oc delete -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
 ## Summary

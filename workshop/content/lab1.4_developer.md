@@ -7,9 +7,11 @@ The second major win is that deploying to a development kubernetes environment b
 
 ## Deploy Service
 
-1.  Create project/namespace
+1.  Create project/namespace with assigned user number
 ```
-oc new-project hello
+# replace X with your assigned number
+export USER_NUMBER=X
+oc new-project user-$USER_NUMBER
 ```
 
 2.  Build the project
@@ -17,7 +19,7 @@ oc new-project hello
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python
 ```
 
-4.  Deploy the service
+3.  Deploy the service
 ```
 HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
 kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
@@ -39,7 +41,7 @@ Service 'hello-python' created to latest revision 'hello-python-dydsc-1' is avai
 http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.com
 ```
 
-5.  Test it
+4.  Test it
 
 In one terminal, watch the pods:
 ```
@@ -109,7 +111,7 @@ Hello Pythonistas!
 
 If you wait another ~90s, then you will see the `hello-python` service again be destroyed.
 
-5.  Delete service
+3.  Delete service
 ```
 kn service delete hello-python
 ```
