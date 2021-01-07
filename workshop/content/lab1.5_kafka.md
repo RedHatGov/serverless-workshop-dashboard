@@ -191,8 +191,12 @@ oc get kafkasource
 
 ```
 NAME               TOPICS                     BOOTSTRAPSERVERS                        READY   REASON   AGE
-mykafka-source     my-topic-<user-number>     my-cluster-kafka-bootstrap.kafka:9092   True             76s
+mykafka-source     my-topic-[user-number]     my-cluster-kafka-bootstrap.kafka:9092   True             76s
 ```
+
+Using the web browser, click on over to the `Developer` view.  Then click `Topology` and make sure you are in the correct `Project`.  You can then verify the KafkaSource is configured correctly.
+
+![Serverless Kafka Source](./images/serverless_kafka_source.png)
 
 ### See It In Action
 Now let's see events flow through the Serverless system. Create the kafka producer again.
@@ -219,7 +223,9 @@ oc delete kafka-producer
 ```
 
 ### Turn on the Firehose
-Time to add more events and watch the autoscaling capabilities of Serverless keep up with the events. First, in one terminal, let's watch the pods.
+Time to add more events and watch the system process them.
+
+In one terminal watch the pods
 
 ```
 watch oc get pods
@@ -228,7 +234,7 @@ watch oc get pods
 In another terminal, run the kafka-spammer.
 
 ```
-oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=1
+oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=10
 ```
 
 In the first terminal watching the pods, you should see 1 or more new pods.
@@ -238,22 +244,20 @@ NAME                                                              READY   STATUS
 eventinghello-v1-deployment-f48945f8b-56sal                       2/2     Running   0          9s
 ```
 
-Wait ~90s for that pod(s) to go away and then let's increase the number of messages sent by changing the `TIMES` environment variable. In the same terminal you ran the `kafka-spammer`, this time run let's send 10 messages.
+If you want to, feel free to open another terminal to watch the logs
 
 ```
-oc run kafka-spammer-$USER_NUMBER -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=10
+stern eventinghello -c user-container
 ```
 
-Jump back over to the `watch oc get pods` terminal and see the new pods.
+And try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more.
 
 ```
-NAME                                                                            READY   STATUS    RESTARTS   AGE
-eventinghello-<user-number>-v1-deployment-f48945f8b-42scl                       2/2     Running   0          9s
-eventinghello-<user-number>-v1-deployment-f48945f8b-68t5j                       2/2     Running   0          9s
-eventinghello-<user-number>-v1-deployment-f48945f8b-cxtbd                       2/2     Running   0          7s
+oc delete pod kafka-spammer
+oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=100
 ```
 
-And if you wait ~90s, you should see them all scale down to 0.  When you are done, you can stop watching the pods (ctrl-c) and `exit` out of the kafka-spammer pod.
+The Serverless system will spin up enough Serverless applications that are required in order to keep up with processing of the Kafka events.  Our application doesn't do much and as a result is able to keep up the volume of events that we push through the system.
 
 ###  Cleanup
 
@@ -265,4 +269,4 @@ oc delete -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-cod
 
 ## Summary
 
-You were able to setup your own Kafka Topic and tie a Serverless application to it.  You sent messages to this topic through the command line as well as through a spammer utility.  For each message, the Serverless application you configured would print out the message it received.  When no messages were being sent from the topic, the Serverless application would idle and then be terminated, freeing up the resources it required.  Conversely, when the topic was flooded with messages, more Serverless applications were spun up dynamically in order to handle the load.
+You were able to setup your own Kafka Topic and tie a Serverless application to it.  You sent messages to this topic through the command line as well as through a spammer utility.  For each message, the Serverless application you configured would print out the message it received.  When no messages were being sent from the topic, the Serverless application would idle and then be terminated, freeing up the resources it required.  Even when the topic was flooded with messages, the system is able to keep up, potentially spinning up more Serverless applications to handle the load.
