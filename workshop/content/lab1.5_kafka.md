@@ -39,21 +39,8 @@ my-cluster   1                        1
 ```
 
 ## Knative Eventing
-The first thing we need to configure is the Knative Event Source. Since we are interested in consuming Kafka events, we will need to use the `KafkaSource`.
 
-### Deploy `KafkaSource`
-The KafkaSource eventing source as already been installed.  Verify the Knative eventing source controller is running:
-
-```
-oc get pods -n knative-sources
-```
-
-```
-NAME                                        READY   STATUS    RESTARTS   AGE
-kafka-controller-manager-67cb856b5c-79kwz   1/1     Running   0          4m23s
-```
-
-Also verify that the eventing knative pods are running:
+Already installed for you are the Kafka and Knative components specially designed to allow Kafka and Knative to work together.  You can see these components by looking at the pods running in the `knative-eventing` namespace.  Notice the `kafka-` pods that allow the `KafkaSource` and `KafkaChannel` to be used by Knative.
 
 ```
 oc get pods -n knative-eventing
@@ -65,13 +52,17 @@ eventing-controller-848bcbd4f9-7zz68               1/1     Running     0        
 eventing-webhook-78dcf96448-6568h                  1/1     Running     0          3d13h
 imc-controller-8559ff856b-2sdk6                    1/1     Running     0          3d13h
 imc-dispatcher-575c7fcd8d-lrpmt                    1/1     Running     0          3d13h
+kafka-ch-controller-85f879d577-llzvp               1/1     Running     0          3d13h
+kafka-ch-dispatcher-55d76d7db8-q9xzw               1/1     Running     0          3d13h
+kafka-controller-manager-bc994c465-t5lv4           1/1     Running     0          3d13h
+kafka-webhook-54646f474f-qstvz                     1/1     Running     0          3d13h
 mt-broker-controller-56857cccc5-h49sp              1/1     Running     0          3d13h
 mt-broker-filter-784b7db965-5ngkk                  1/1     Running     0          3d13h
 mt-broker-ingress-6b9f847866-bhk5w                 1/1     Running     0          3d13h
 sugar-controller-594784974b-rpvsm                  1/1     Running     0          3d13h
 ```
 
-We can also see the various kinds of objects we will be using, starting first with the eventing sources.  Notice the `KafkaSource`.
+We can also see the various kinds of objects we will be using, starting first with the eventing sources.  Notice the `KafkaSource` api resource.
 
 ```
 oc api-resources --api-group='sources.knative.dev'
@@ -107,19 +98,21 @@ Channels are the mechanism that actually forward events through the system, from
 Let's verify that we are configured to use the `KafkaChannel`.
 
 ```
-oc get configmap config-default-kafka-channel -o yaml -n knative-eventing
+oc describe KnativeEventing knative-eventing -n knative-eventing
 ```
 
 You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snippet:
 
 ```
-apiVersion: v1
-data:
-  default-ch-config: |
-    namespaceDefaults:
-      kafka:
-        apiVersion: messaging.knative.dev/v1alpha1
-        kind: KafkaChannel
+Spec:
+  Config:
+    Default - Ch - Webhook:
+      Default - Ch - Config:  clusterDefault:
+  apiVersion: messaging.knative.dev/v1beta1
+  kind: KafkaChannel
+  spec:
+    numPartitions: 1
+    replicationFactor: 1
 ```
 
 ### Create Sink
@@ -128,8 +121,13 @@ We will now create a sink, a final destination for Kafka events flowing through 
 First let's make sure you are still in the right project.
 
 ```
-oc project
-# Using project "user-$USER_NAME" on server...
+oc project    # Using project "user$USER_NUMBER" on server...
+```
+
+Let's also make sure your user number is set.
+
+```
+export USER_NUMBER=x    # replace x with your number
 ```
 
 Now we can create our sink.
@@ -173,7 +171,7 @@ oc get kafkatopics
 
 ```
 NAME                                                                        PARTITIONS   REPLICATION FACTOR
-my-topic-[user_number]                                                      10           1
+my-topic-USER_NUMBER                                                        10           1
 ```
 
 ### Create KafkaSource Instance
@@ -190,8 +188,8 @@ oc get kafkasource
 ```
 
 ```
-NAME               TOPICS                     BOOTSTRAPSERVERS                        READY   REASON   AGE
-mykafka-source     my-topic-[user_number]     my-cluster-kafka-bootstrap.kafka:9092   True             76s
+NAME             TOPICS           BOOTSTRAPSERVERS                                      READY   REASON   AGE
+mykafka-source   ["my-topic-USER_NUMBER"]   ["my-cluster-kafka-bootstrap.kafka:9092"]   True             8s
 ```
 
 Using the web browser, click on over to the `Developer` view.  Then click `Topology` and make sure you are in the correct `Project`.  You can then verify the KafkaSource is configured correctly.
@@ -215,7 +213,7 @@ stern eventinghello -c user-container
 
 Every message you type into the producer, will appear in the knative service logs (that you are viewing through `stern`), along with other CloudEvent metadata.
 
-Let's make sure the pods were properly deleted.
+Send the kill command to each terminal (ctrl-c) and let's make sure the pods were properly deleted.
 
 ```
 oc delete kafka-producer
