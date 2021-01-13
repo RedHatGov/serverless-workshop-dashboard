@@ -9,7 +9,9 @@ Knative serving has already been installed for you.  Verify it now.
 
 1.  Verify installation
 ```
-oc get knativeserving.operator.knative.dev/knative-serving -n knative-serving --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
+oc get knativeserving.operator.knative.dev/knative-serving \
+  -n knative-serving \
+  --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
 ```
 
 The output will look like:
