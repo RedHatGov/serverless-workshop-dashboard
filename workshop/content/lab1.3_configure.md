@@ -74,28 +74,20 @@ imc-controller-5b75d458fc-ptvm2        1/1     Running   0          7m19s
 imc-dispatcher-64f6d5fccb-kkc4c        1/1     Running   0          7m18s
 ```
 
+## Tools
 
-## `kn` CLI Installation
+### `kn` CLI
 
-`kn` is a very powerful tool for being able to control knative from the command line.
+`kn` is a very powerful tool for being able to control knative from the command line. Verify that you have it installed by running:
 
-1.  Download the CLI from [openshift.com](https://mirror.openshift.com/pub/openshift-v4/clients/serverless/latest) or from your cluster by appending `/command-line-tools` to your cluster URL
-2.  Unpack and unzip the archive
-```
-tar -xf <file>
-```
-3.  Move the kn binary into your PATH
-4.  Verify installation
 ```
 kn version
 ```
 
-## `stern` CLI Installation
+### `stern` CLI
 
-`stern` is a great tool to easily be able to view logs for a particular container.
+`stern` is a great tool to easily be able to view logs for a particular container.  Verify that you have it installed by running:
 
-1.  Download the newest release from [github.com](https://github.com/wercker/stern/releases).  Find your operating system and download it.
-
-2.  You should be able to double click the installer to install.
-
-Note: If you are on a macOS and have Homebrew installed, you can just run `brew install stern`.
+```
+stern -v
+```
