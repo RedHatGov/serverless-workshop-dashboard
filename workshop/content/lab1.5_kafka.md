@@ -13,13 +13,13 @@ From the event source, the CloudEvent is sent to a Channel. Channels then send C
 ![Source to Sink](./images/serverless-eventing-channels-subs.png)
 
 ## Verify Kafka Setup
-Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running:
+Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running
 
 ```
 oc get operators -o name | grep amq
 ```
 
-You will see:
+You will see
 
 ```
 operator.operators.coreos.com/amq-streams.openshift-operators
@@ -101,7 +101,7 @@ Let's verify that we are configured to use the `KafkaChannel`.
 oc describe KnativeEventing knative-eventing -n knative-eventing
 ```
 
-You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snippet:
+You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snippet
 
 ```
 Spec:
@@ -136,7 +136,7 @@ Now we can create our sink.
 oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
-Verify that it is there and wait until it is ready:
+Verify that it is there and wait until it is ready
 
 ```
 oc get ksvc
@@ -147,7 +147,7 @@ NAME            URL                                               LATESTCREATED 
 eventinghello   http://eventinghello-xyz.sandbox373.opentlc.com   eventinghello-v1   eventinghello-v1   True
 ```
 
-When Serverless services are created they are initially spun up, which is why we can see the logs:
+When Serverless services are created they are initially spun up, which is why we can see the logs
 
 ```
 stern eventinghello -c user-container
@@ -162,7 +162,7 @@ We have a Kafka topic, we should now go ahead and create the Kafka topic.
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
-Verify it was created:
+Verify it was created
 
 ```
 oc get kafkatopics
@@ -197,9 +197,9 @@ Using the web browser, click on over to the `Developer` view.  Then click `Topol
 ![Serverless Kafka Source](./images/serverless_kafka_source.png)
 
 ### See It In Action
-Now let's see events flow through the Serverless system. Create the kafka producer again.
+Now let's see events flow through the Serverless system. Create a kafka producer.
 
-In one terminal run:
+In one terminal run
 
 ```
 oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap.kafka:9092 --topic my-topic-$USER_NUMBER
@@ -213,7 +213,11 @@ stern eventinghello -c user-container
 
 Every message you type into the producer, will appear in the knative service logs (that you are viewing through `stern`), along with other CloudEvent metadata.
 
-Send the kill command to each terminal (ctrl-c) and let's make sure the pods were properly deleted.
+```
+eventinghello-v1-deployment-5dc76db76c-6b7np user-container 2021-01-12 17:31:57,326 INFO  [eventing-hello] (executor-thread-1) POST:this is a test
+```
+
+When you are done, send the kill command to each terminal (ctrl-c) and make sure the `kafka-producer` pod is properly deleted.
 
 ```
 oc delete kafka-producer
@@ -260,9 +264,10 @@ The Serverless system will spin up enough Serverless applications that are requi
 ###  Cleanup
 
 ```
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc delete -f -
-oc delete -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
+oc delete kafkasource mykafka-source
+oc delete kafkatopic my-topic-$USER_NUMBER
+oc delete service eventinghello
+oc delete ksvc eventinghello
 ```
 
 ## Summary
