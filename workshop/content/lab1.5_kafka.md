@@ -266,7 +266,6 @@ The Serverless system will spin up enough Serverless applications that are requi
 ```
 oc delete kafkasource mykafka-source
 oc delete kafkatopic my-topic-$USER_NUMBER
-oc delete service eventinghello
 oc delete ksvc eventinghello
 ```
 
