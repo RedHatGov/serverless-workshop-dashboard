@@ -152,7 +152,7 @@ eventinghello   http://eventinghello-xyz.sandbox373.opentlc.com   eventinghello-
 When Serverless services are created they are initially spun up, which is why we can see the logs:
 
 ```
-stern eventinghello -c user-container`
+stern eventinghello -c user-container
 ```
 
 Note, if you didn't run the `stern` command within ~90s of creating the sink, the container might have spun back down, but that's ok, you can keep going.
@@ -173,7 +173,7 @@ oc get kafkatopics
 
 ```
 NAME                                                                        PARTITIONS   REPLICATION FACTOR
-my-topic-<user_number>                                                      10           1
+my-topic-[user_number]                                                      10           1
 ```
 
 ### Create KafkaSource Instance
@@ -191,7 +191,7 @@ oc get kafkasource
 
 ```
 NAME               TOPICS                     BOOTSTRAPSERVERS                        READY   REASON   AGE
-mykafka-source     my-topic-[user-number]     my-cluster-kafka-bootstrap.kafka:9092   True             76s
+mykafka-source     my-topic-[user_number]     my-cluster-kafka-bootstrap.kafka:9092   True             76s
 ```
 
 Using the web browser, click on over to the `Developer` view.  Then click `Topology` and make sure you are in the correct `Project`.  You can then verify the KafkaSource is configured correctly.
