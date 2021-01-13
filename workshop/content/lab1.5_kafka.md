@@ -136,7 +136,7 @@ Now we can create our sink.
 oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
-Verify that it is there:
+Verify that it is there and wait until it is ready:
 
 ```
 oc get ksvc
