@@ -193,7 +193,7 @@ NAME             TOPICS           BOOTSTRAPSERVERS                              
 mykafka-source   ["my-topic-USER_NUMBER"]   ["my-cluster-kafka-bootstrap.kafka:9092"]   True             8s
 ```
 
-Using the web browser, click on over to the `Developer` view.  Then click `Topology` and make sure you are in the correct `Project`.  You can then verify the KafkaSource is configured correctly.
+Using the web browser, click on over to the `Developer` view.  Then click `Topology` and make sure you are in the correct project (%username%).  You can then verify the KafkaSource is configured correctly.
 
 ![Serverless Kafka Source](./images/serverless_kafka_source.png)
 
