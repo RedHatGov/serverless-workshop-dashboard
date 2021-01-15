@@ -13,13 +13,13 @@ From the event source, the CloudEvent is sent to a Channel. Channels then send C
 ![Source to Sink](./images/serverless-eventing-channels-subs.png)
 
 ## Verify Kafka Setup
-Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running
+Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running:
 
 ```
 oc get operators -o name | grep amq
 ```
 
-You will see
+You will see:
 
 ```
 operator.operators.coreos.com/amq-streams.openshift-operators
@@ -87,6 +87,7 @@ oc api-resources --api-group='messaging.knative.dev'
 NAME               SHORTNAMES   APIGROUP                NAMESPACED   KIND
 channels           ch           messaging.knative.dev   true         Channel
 inmemorychannels   imc          messaging.knative.dev   true         InMemoryChannel
+kafkachannels      kc           messaging.knative.dev   true         KafkaChannel
 subscriptions      sub          messaging.knative.dev   true         Subscription
 ```
 
@@ -101,7 +102,7 @@ Let's verify that we are configured to use the `KafkaChannel`.
 oc describe KnativeEventing knative-eventing -n knative-eventing
 ```
 
-You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snippet
+You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snippet:
 
 ```
 Spec:
@@ -136,7 +137,7 @@ Now we can create our sink.
 oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
-Verify that it is there and wait until it is ready
+Verify that it is there and wait until it is ready.
 
 ```
 oc get ksvc
@@ -147,7 +148,7 @@ NAME            URL                                               LATESTCREATED 
 eventinghello   http://eventinghello-xyz.sandbox373.opentlc.com   eventinghello-v1   eventinghello-v1   True
 ```
 
-When Serverless services are created they are initially spun up, which is why we can see the logs
+When Serverless services are created they are initially spun up, which is why we can see the logs.
 
 ```
 stern eventinghello -c user-container
@@ -162,7 +163,7 @@ We have a Kafka topic, we should now go ahead and create the Kafka topic.
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
-Verify it was created
+Verify it was created:
 
 ```
 oc get kafkatopics
@@ -181,7 +182,7 @@ Now we will create a KafkaSource instance that ties our topic to our sink.
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
-Verify that it was created.
+Verify that it was created:
 
 ```
 oc get kafkasource
@@ -199,19 +200,19 @@ Using the web browser, click on over to the `Developer` view.  Then click `Topol
 ### See It In Action
 Now let's see events flow through the Serverless system. Create a kafka producer.
 
-In one terminal run
+In one terminal run:
 
 ```
 oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap.kafka:9092 --topic my-topic-$USER_NUMBER
 ```
 
-In another terminal run
+In another terminal run:
 
 ```
 stern eventinghello -c user-container
 ```
 
-Every message you type into the producer, will appear in the knative service logs (that you are viewing through `stern`), along with other CloudEvent metadata.
+Every message you type into the producer, will appear in the knative service logs (that you are viewing through `stern`), along with other CloudEvent metadata.  For example, if you enter `this is a test` in the terminal, you should see the stern log output:
 
 ```
 eventinghello-v1-deployment-5dc76db76c-6b7np user-container 2021-01-12 17:31:57,326 INFO  [eventing-hello] (executor-thread-1) POST:this is a test
@@ -227,32 +228,32 @@ oc delete pod kafka-producer
 ### Turn on the Firehose
 Time to add more events and watch the system process them.
 
-In one terminal watch the pods
+In one terminal watch the pods:
 
 ```
 watch oc get pods
 ```
 
-In another terminal, run the kafka-spammer.
+In another terminal, run the kafka-spammer:
 
 ```
 oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=10
 ```
 
-In the first terminal watching the pods, you should see 1 or more new pods.
+In the first terminal watching the pods, you should see 1 or more new pods:
 
 ```
 NAME                                                              READY   STATUS    RESTARTS   AGE
 eventinghello-v1-deployment-f48945f8b-56sal                       2/2     Running   0          9s
 ```
 
-If you want to, feel free to open another terminal to watch the logs
+If you want to, feel free to open another terminal to watch the logs:
 
 ```
 stern eventinghello -c user-container
 ```
 
-And try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more.
+And try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more:
 
 ```
 oc delete pod kafka-spammer

@@ -17,11 +17,15 @@ oc project user$USER_NUMBER
 ```
 
 2.  Build the project
+
+Build the project and wait until build succeeds.
+
 ```
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python --strategy=docker
 ```
 
 3.  Deploy the service
+
 ```
 HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
 kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
