@@ -7,17 +7,25 @@ The second major win is that deploying to a development kubernetes environment b
 
 ## Deploy Service
 
-1.  Create project/namespace
+1.  Use project/namespace with assigned user number
+Make sure you are logged in first with the `oc login` command
+
 ```
-oc new-project hello
+# replace X with your assigned number
+export USER_NUMBER=X
+oc project user$USER_NUMBER
 ```
 
 2.  Build the project
+
+Build the project and wait until build succeeds.
+
 ```
-oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python
+oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python --strategy=docker
 ```
 
-4.  Deploy the service
+3.  Deploy the service
+
 ```
 HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
 kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
@@ -39,9 +47,10 @@ Service 'hello-python' created to latest revision 'hello-python-dydsc-1' is avai
 http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.com
 ```
 
-5.  Test it
+4.  Test it
 
 In one terminal, watch the pods:
+
 ```
 oc get pods -w
 ```
@@ -55,12 +64,14 @@ hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Running     0        
 ```
 
 In another terminal, curl the endpoint:
+
 ```
-# Your service endpoint will vary
-curl http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.com
+HELLO_URL=$(oc get route.serving.knative.dev hello-python --template='{{.status.url}}')
+curl $HELLO_URL
 ```
 
 You should see:
+
 ```
 Hello Python!
 ```
@@ -88,6 +99,7 @@ kn service update hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas
 2.  Test it
 
 Ensure you are still watching the pods, if not, in one terminal run:
+
 ```
 oc get pods -w
 ```
@@ -95,21 +107,23 @@ oc get pods -w
 The `hello-python` should not be running.
 
 In another terminal we'll curl the endpoint again.
+
 ```
-# Your service endpoint will vary
-curl http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.com
+curl $HELLO_URL
 ```
 
 You should now see the `hello-python` service appear and change states from `Pending` to `ContainerCreating` to `Running`.
 
 The result of the `curl` command should be:
+
 ```
 Hello Pythonistas!
 ```
 
 If you wait another ~90s, then you will see the `hello-python` service again be destroyed.
 
-5.  Delete service
+3.  Delete service
+
 ```
 kn service delete hello-python
 ```
