@@ -19,7 +19,7 @@ RUN wget https://github.com/wercker/stern/releases/download/1.11.0/stern_linux_a
     chmod 500 ./stern
 
 # install kn
-RUN wget https://mirror.openshift.com/pub/openshift-v4/clients/serverless/latest/kn-linux-amd64-0.17.3.tar.gz && \
+RUN wget https://mirror.openshift.com/pub/openshift-v4/clients/serverless/0.17.3/kn-linux-amd64-0.17.3.tar.gz && \
     tar -xf ./kn-linux-amd64-0.17.3.tar.gz && \
     rm kn-linux-amd64-0.17.3.tar.gz && \
     chown 1001 ./kn && \
