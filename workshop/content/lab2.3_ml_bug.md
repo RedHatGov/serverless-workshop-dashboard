@@ -112,7 +112,7 @@ curl -X POST -d 'Body=nothing to see here' 'http://localhost:5000/predict' | xml
 
 Send another sample request.  
 
-```execute
+```
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
