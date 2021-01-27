@@ -4,4 +4,15 @@ name: OpenShift Serverless Workshop
 modules:
   activate:
     - index
+    - lab1.1_welcome
+    - lab1.2_how_works
+    - lab1.3_configure
+    - lab1.4_developer
+    - lab1.5_kafka
+    - lab2.1_ml_overview
+    - lab2.2_ml_prediction
+    - lab2.3_ml_bug
+    - lab2.4_ml_twilio
+    - lab2.5_ml_lifeline
+    - lab2.6_ml_summary    
     - fin
