@@ -122,6 +122,8 @@ Hello Python v2!
 
 Deploying a new Knative service actually creates a new immutable revision and routes all traffic to it.  These immutable revisions allows us to have sophisticated deployment strategies.  The first we will examine is blue-green.
 
+At a high level, blue-green deployment is the idea of having v1 (blue) running along side v2 (green).  When you are ready to go live with v2, you simply switch the router to route all traffic from v1 (blue) to v2 (green).  The nice thing about this approach is that if there is a problem with v2, you can easily rollback and switch the router to route all traffic back to v1.  You can read more about that [here](https://martinfowler.com/bliki/BlueGreenDeployment.html).
+
 Let's reset all traffic back to v1.
 
 ```
@@ -165,7 +167,9 @@ Refresh the page and you will see the version 2 text.
 
 ## Canary Deployment
 
-The immutable revisions coupled with our ability to configure traffic distribution means we can also do Canary deployment.  Let's try that now.
+The immutable revisions coupled with our ability to configure traffic distribution means we can also do canary deployment.  A canary deployment has a few names, and you might have heard it referred to as phased or incremental rollout.  The idea here is that unlike a blue-green deployment where we cut over all traffic to the new version at one time, with canary we instead to this gradually.  This is a safer alternative because you can slowly and methodically route a small percentage of traffic to the new version, gradually increasing that percentage as you gain more confidence in your deployment until eventually you hit 100% until eventually you hit 100%.  The con is that you need to be running two versions of the application concurrently for some duration of time.  You can read more about this [here](https://martinfowler.com/bliki/CanaryRelease.html).
+
+Let's try a canary deployment now.
 
 ```
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-canary.yml | oc apply -f -
@@ -190,6 +194,9 @@ The 50/50 is just an approximation, so don't expect this to be exact, but let's 
 KNATIVE_SERVICE=$(oc get ksvc -o=jsonpath='{ .items[0].status.url }')
 while true; do sleep 1; curl $KNATIVE_SERVICE; echo "";done
 ```
+
+You could imagine steadily incrementing the percentage of traffic to version 2 until eventually we get to 100%.
+
 
 ## Monitoring Dashboard
 We can monitor the resources that our serverless applications are using.  Make sure you are in the `Developer` view and click on the `Monitoring` tab and with the `Dashboard` tab selected, we can examine the CPU, memory, and bandwidth usage; among other metrics.  Feel free to click on the `Workload` dropdown to be able to look only at a specific revision.  Also feel free to click on `Metrics` to be able to write your own Prometheus Query, or on the `Events` tab to see events related to your applications.  One thing to note is that it takes a while for this data to show up, so if the graphs are empty, give it a few minutes to populate.
