@@ -172,7 +172,7 @@ The immutable revisions coupled with our ability to configure traffic distributi
 Let's try a canary deployment now.
 
 ```
-curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-canary.yml | oc apply -f -
+curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python-canary.yml | oc apply -f -
 ```
 
 Notice the traffic is split 50/50.
