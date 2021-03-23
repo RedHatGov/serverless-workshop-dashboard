@@ -20,13 +20,13 @@ oc project user$USER_NUMBER
 
 Build the project and wait until build succeeds.
 
-```
+```execute
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python --strategy=docker
 ```
 
 3.  Deploy the service
 
-```
+```execute
 HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
 kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
 ```
@@ -51,7 +51,7 @@ http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.c
 
 In one terminal, watch the pods:
 
-```
+```execute
 oc get pods -w
 ```
 
@@ -65,7 +65,7 @@ hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Running     0        
 
 In another terminal, curl the endpoint:
 
-```
+```execute
 HELLO_URL=$(oc get route.serving.knative.dev hello-python --template='{{.status.url}}')
 curl $HELLO_URL
 ```
@@ -90,7 +90,7 @@ hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Terminating 0        
 Now say a new requirement has come in that we need to say `Hello Pythonistas` instead of `Hello Python`.
 
 1.  Deploy the updated service
-```
+```execute
 kn service update hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas
 # can alternatively force create instead of update
 # kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas -f
@@ -100,7 +100,7 @@ kn service update hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas
 
 Ensure you are still watching the pods, if not, in one terminal run:
 
-```
+```execute
 oc get pods -w
 ```
 
@@ -108,7 +108,7 @@ The `hello-python` should not be running.
 
 In another terminal we'll curl the endpoint again.
 
-```
+```execute
 curl $HELLO_URL
 ```
 
@@ -124,7 +124,7 @@ If you wait another ~90s, then you will see the `hello-python` service again be 
 
 3.  Delete service
 
-```
+```execute
 kn service delete hello-python
 ```
 
