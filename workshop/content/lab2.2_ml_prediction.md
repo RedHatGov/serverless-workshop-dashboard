@@ -47,7 +47,7 @@ Let's deploy the NLP Prediction Service on OpenShift Serverless.
 Build the container image:
 
 ```execute
-oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
+oc new-build python:3.6-ubi8~https://github.com/RedHatGov/serverless-workshop-code#workshop --name prediction --context-dir=model/prediction
 ```
 
 Wait until the build completes:
