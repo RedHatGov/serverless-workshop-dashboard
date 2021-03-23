@@ -15,7 +15,7 @@ From the event source, the CloudEvent is sent to a Channel. Channels then send C
 ## Verify Kafka Setup
 Kafka has already been installed for you using the Red Hat Integration - AMQ Streams operator.  You can verify this by running:
 
-```
+```execute
 oc get operators -o name | grep amq
 ```
 
@@ -27,7 +27,7 @@ operator.operators.coreos.com/amq-streams.openshift-operators
 
 Also verify the Kafka cluster exists.
 
-```
+```execute
 oc get kafka -n kafka
 ```
 
@@ -42,7 +42,7 @@ my-cluster   1                        1
 
 Already installed for you are the Kafka and Knative components specially designed to allow Kafka and Knative to work together.  You can see these components by looking at the pods running in the `knative-eventing` namespace.  Notice the `kafka-` pods that allow the `KafkaSource` and `KafkaChannel` to be used by Knative.
 
-```
+```execute
 oc get pods -n knative-eventing
 ```
 
@@ -64,7 +64,7 @@ sugar-controller-594784974b-rpvsm                  1/1     Running     0        
 
 We can also see the various kinds of objects we will be using, starting first with the eventing sources.  Notice the `KafkaSource` api resource.
 
-```
+```execute
 oc api-resources --api-group='sources.knative.dev'
 ```
 
@@ -79,7 +79,7 @@ sinkbindings                    sources.knative.dev   true         SinkBinding
 
 Next we can see the specific eventing/messaging resources.  Notice the `Channel`.
 
-```
+```execute
 oc api-resources --api-group='messaging.knative.dev'
 ```
 
@@ -98,7 +98,7 @@ Channels are the mechanism that actually forward events through the system, from
 ### Verify Channel
 Let's verify that we are configured to use the `KafkaChannel`.
 
-```
+```execute
 oc describe KnativeEventing knative-eventing -n knative-eventing
 ```
 
@@ -121,7 +121,7 @@ We will now create a sink, a final destination for Kafka events flowing through 
 
 First let's make sure you are still in the right project.
 
-```
+```execute
 oc project    # Using project "user$USER_NUMBER" on server...
 ```
 
@@ -133,13 +133,13 @@ export USER_NUMBER=x    # replace x with your number
 
 Now we can create our sink.
 
-```
+```execute
 oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
 
 Verify that it is there and wait until it is ready.
 
-```
+```execute
 oc get ksvc
 ```
 
@@ -150,7 +150,7 @@ eventinghello   http://eventinghello-xyz.sandbox373.opentlc.com   eventinghello-
 
 When Serverless services are created they are initially spun up, which is why we can see the logs.
 
-```
+```execute
 stern eventinghello -c user-container
 ```
 
@@ -159,13 +159,13 @@ Note, if you didn't run the `stern` command within ~90s of creating the sink, th
 ### Create Topic
 We have a Kafka topic, we should now go ahead and create the Kafka topic.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
 Verify it was created:
 
-```
+```execute
 oc get kafkatopics
 # a nice shortcut is `oc get kt`
 ```
@@ -178,13 +178,13 @@ my-topic-USER_NUMBER                                                        10  
 ### Create KafkaSource Instance
 Now we will create a KafkaSource instance that ties our topic to our sink.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-source-to-sink.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
 
 Verify that it was created:
 
-```
+```execute
 oc get kafkasource
 ```
 
@@ -202,13 +202,13 @@ Now let's see events flow through the Serverless system. Create a kafka producer
 
 In one terminal run:
 
-```
+```execute
 oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --restart=Never -- bin/kafka-console-producer.sh --broker-list my-cluster-kafka-bootstrap.kafka:9092 --topic my-topic-$USER_NUMBER
 ```
 
 In another terminal run:
 
-```
+```execute
 stern eventinghello -c user-container
 ```
 
@@ -220,7 +220,7 @@ eventinghello-v1-deployment-5dc76db76c-6b7np user-container 2021-01-12 17:31:57,
 
 When you are done, send the kill command to each terminal (ctrl-c) and make sure the `kafka-producer` pod is properly deleted.
 
-```
+```execute
 oc delete pod kafka-producer
 # it's ok to get "error: the server doesn't have a resource type "kafka-producer""
 ```
@@ -230,13 +230,13 @@ Time to add more events and watch the system process them.
 
 In one terminal watch the pods:
 
-```
+```execute
 watch oc get pods
 ```
 
 In another terminal, run the kafka-spammer:
 
-```
+```execute
 oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=10
 ```
 
@@ -249,13 +249,13 @@ eventinghello-v1-deployment-f48945f8b-56sal                       2/2     Runnin
 
 If you want to, feel free to open another terminal to watch the logs:
 
-```
+```execute
 stern eventinghello -c user-container
 ```
 
 And try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more:
 
-```
+```execute
 oc delete pod kafka-spammer
 oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=100
 ```
@@ -264,7 +264,7 @@ The Serverless system will spin up enough Serverless applications that are requi
 
 ###  Cleanup
 
-```
+```execute
 oc delete kafkasource mykafka-source
 oc delete kafkatopic my-topic-$USER_NUMBER
 oc delete ksvc eventinghello

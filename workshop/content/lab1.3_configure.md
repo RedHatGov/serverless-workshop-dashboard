@@ -8,7 +8,7 @@ OpenShift Serverless install can be completely done with Operator Hub webconsole
 Knative serving has already been installed for you.  Verify it now.
 
 1.  Verify installation
-```
+```execute
 oc get knativeserving.operator.knative.dev/knative-serving \
   -n knative-serving \
   --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
@@ -25,7 +25,7 @@ Ready=True
 
 2.  Verify serving pods
 
-```
+```execute
 oc get pods -n knative-serving
 ```
 
@@ -51,7 +51,7 @@ sugar-controller-594784974b-rpvsm                  1/1     Running     0        
 Knative eventing has already been installed for you.  Verify it now.
 
 1.  Verify installation
-```
+```execute
 oc get knativeeventing.operator.knative.dev/knative-eventing \
   -n knative-eventing \
   --template='{{range .status.conditions}}{{printf "%s=%s\n" .type .status}}{{end}}'
@@ -65,7 +65,7 @@ Ready=True
 
 2.  Verify eventing pods
 
-```
+```execute
 oc get pods -n knative-eventing
 ```
 
@@ -85,7 +85,7 @@ imc-dispatcher-64f6d5fccb-kkc4c        1/1     Running   0          7m18s
 
 `kn` is a very powerful tool for being able to control knative from the command line. Verify that you have it installed by running:
 
-```
+```execute
 kn version
 ```
 
@@ -93,6 +93,6 @@ kn version
 
 `stern` is a great tool to easily be able to view logs for a particular container.  Verify that you have it installed by running:
 
-```
+```execute
 stern -v
 ```
