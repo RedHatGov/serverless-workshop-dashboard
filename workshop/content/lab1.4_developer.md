@@ -224,7 +224,7 @@ kn func run  # wait until done, will say listening on: http://0.0.0.0:8080
 Then in another terminal hit the endpoint.
 
 ```shell
-curl http://localhost:8080?message=test
+curl "http://localhost:8080?message=test"
 ```
 
 This should return the following:
