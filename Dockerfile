@@ -6,7 +6,8 @@ USER root
 RUN wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip && \
     unzip ./awscli-exe-linux-x86_64-2.0.30.zip && \
     rm ./awscli-exe-linux-x86_64-2.0.30.zip && \
-    ./aws/install
+    ./aws/install && \
+    rm -rf ./aws
 
 COPY . /tmp/src
 
