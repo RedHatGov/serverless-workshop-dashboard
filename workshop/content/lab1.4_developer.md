@@ -8,7 +8,6 @@ The second major win is that deploying to a development kubernetes environment b
 ## Services
 A Knative Service is a way to abstract the underlying pods that make up a single application, similar to a Kubernetes Service.  While a Kubernetes Service is not difficult to deploy, Knative takes this ease a step further and makes it even easier.  Let's do this now.
 
-
 ### Deploy Service
 
 1.  Use project/namespace with assigned user number
@@ -89,7 +88,6 @@ hello-python-1-build                               0/1     Completed   0        
 hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Terminating 0          67s
 ```
 
-
 ### Update Service
 
 Now say a new requirement has come in that we need to say `Hello Pythonistas` instead of `Hello Python`.
@@ -139,13 +137,13 @@ Previously, we deployed a Knative Service, which was just a containerized applic
 
 In some use cases, it would be great if we could offload these http concerns to the platform.  That way, all we would have to do is just write a single function and just deploy that.  This is often referred to as Functions as a Service (FAAS) and this is exactly what Serverless Functions allow us to do.  For a developer, this let's us focus only on just writing the code itself and nothing else.
 
-There is one caveat to the following section, specifically the deployment section.  You will need and be logged into an image repository like http://quay.io or http://hub.docker.com.  If you are using quay.io, go ahead and create a registry named `func` and make the visibility public by going here https://quay.io/new/.  Also log in to it by running `docker login quay.io` or `podman login quay.io`.
+There is one caveat to the following section, specifically the deployment section below.  You will need and be logged into an image repository like http://quay.io or http://hub.docker.com.  If you are using quay.io, go ahead and create a registry named `func` and make the visibility public by going here https://quay.io/new/.  Also log in to it by running `docker login quay.io` or `podman login quay.io`.
 
 ### Create New Project
 
 Let's start first by creating a new project that we will use to demonstrate Serverless Functions.  The `kn` tool allows us to easily create scaffolding for our new project.  For this example, we will be using Java and particularly some libraries from the Quarkus framework.  A quick aside on Quarkus, this is a Java framework that performs advanced compile time optimizations to lower the notoriously long Java boot time, memory footprint, and even allows us to compile our Java application down to native code; making our Java app extremely fast.  If you're interested, you can read more about [Quarkus here](https://quarkus.io).
 
-Now let's create a project directory and bootstrap our project.
+Let's create a project directory and bootstrap our project.
 
 ```
 mkdir func
@@ -153,7 +151,7 @@ cd func
 kn func create -l quarkus
 ```
 
-Now let's take a quick peek at our function.  Notice that it is a single class with just a single function.
+Next take a quick peek at our function.  Notice that it is a single class with just a single function.
 
 ```
 cat ./src/main/java/functions/Function.java
@@ -239,7 +237,7 @@ Then stop the server by `ctrl-c` in the terminal.
 
 ### Deploy Function
 
-Now let's deploy the function to OpenShift.
+Time to deploy the function to OpenShift into our namespace.
 
 ```shell
 kn func deploy -n user$USER_NUMBER
@@ -263,7 +261,7 @@ Error: knative deployer failed to wait for the service to become ready: timeout:
 
 Make sure to make your quay repository public.  You can do so by going to `https://quay.io/repository/IMAGE_REPO_USERNAME/func?tab=settings` and changing the visibility to public.
 
-Now let's hit the endpoint.
+Test the endpoint.
 
 ```shell
 URL=$(kn func describe -o yaml | yq e '.routes[0]' -)
@@ -283,7 +281,6 @@ Finally let's clean everything up.
 ```shell
 kn func delete
 ```
-
 
 ## Summary
 In this lab you saw how easy it was for a developer to quickly build and deploy code into the OpenShift cluster.  You could deploy either a container or just a function with just a few commands.  Our service sprang to life when we used it and spun back down when it was not.  This simple workflow makes it easy for developers to get started and the low resource utilization when services are idle means potentially being able to support more services and developers on the platform.
