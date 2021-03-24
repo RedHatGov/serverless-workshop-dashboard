@@ -33,7 +33,7 @@ export BUCKET_NAME=$(oc get cm serverless-workshop-ml -o jsonpath="{.data.BUCKET
 List the objects in your bucket:
 
 ```execute
-aws2 --endpoint $ENDPOINT_URL s3 ls s3://$BUCKET_NAME
+aws --endpoint $ENDPOINT_URL s3 ls s3://$BUCKET_NAME
 ```
 
 You should see the `model.pkl` file in the output.

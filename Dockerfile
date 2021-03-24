@@ -2,6 +2,13 @@ FROM quay.io/redhatgov/workshop-dashboard:latest
 
 USER root
 
+# install aws2
+RUN wget https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.0.30.zip && \
+    unzip ./awscli-exe-linux-x86_64-2.0.30.zip && \
+    rm ./awscli-exe-linux-x86_64-2.0.30.zip && \
+    ./aws/install && \
+    rm -rf ./aws
+
 COPY . /tmp/src
 
 RUN rm -rf /tmp/src/.git* && \
