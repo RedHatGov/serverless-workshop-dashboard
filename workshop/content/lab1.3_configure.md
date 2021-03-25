@@ -1,10 +1,6 @@
 # Setup
 
-As a preqrequisite to running these labs, you will need access to an OpenShift v4.x cluster.  You should also have a few tools installed:
-
-1.  `oc` OpenShift command line tool
-2.  `kn` Serverless command line tool
-3.  `stern` For viewing logs
+As a preqrequisite to running these labs, you will need access to an OpenShift v4.x cluster.  You should also have a few things preconfigured which we'll verify now.
 
 ## Knative Serving
 Knative serving has already been installed for you.  Verify it now.
