@@ -137,8 +137,6 @@ Previously, we deployed a Knative Service, which was just a containerized applic
 
 In some use cases, it would be great if we could offload these http concerns to the platform.  That way, all we would have to do is just write a single function and just deploy that.  This is often referred to as Functions as a Service (FAAS) and this is exactly what Serverless Functions allow us to do.  For a developer, this let's us focus only on just writing the code itself and nothing else.
 
-There is one caveat to the following section, specifically the deployment section below.  You will need and be logged into an image repository like http://quay.io or http://hub.docker.com.  If you are using quay.io, go ahead and create a registry named `func` and make the visibility public by going here https://quay.io/new/.  Also log in to it by running `docker login quay.io` or `podman login quay.io`.
-
 ### Create New Project
 
 Let's start first by creating a new project that we will use to demonstrate Serverless Functions.  The `kn` tool allows us to easily create scaffolding for our new project.  For this example, we will be using Java and particularly some libraries from the Quarkus framework.  A quick aside on Quarkus, this is a Java framework that performs advanced compile time optimizations to lower the notoriously long Java boot time, memory footprint, and even allows us to compile our Java application down to native code; making our Java app extremely fast.  If you're interested, you can read more about [Quarkus here](https://quarkus.io).

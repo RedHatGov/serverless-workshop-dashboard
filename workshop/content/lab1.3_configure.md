@@ -95,7 +95,7 @@ You will need:
 1.  `oc`
 2.  `kn`
 3.  `stern`
-
+4.  `podman` or `docker`
 
 ### `kn` CLI
 
@@ -111,4 +111,12 @@ kn version
 
 ```execute
 stern -v
+```
+
+### Image Repository
+
+There is an optional section that requires access to an image repository.  If you do not have one, you can sign up for a free at [Quay.io](https://quay.io) or [Dockerhub](https://hub.docker.com).  Also make sure to log in using either `docker` or `podman`.
+
+```shell
+podman login quay.io
 ```
