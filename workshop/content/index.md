@@ -2,7 +2,7 @@
 
 ## Description 
 
-Serverless computing allows developers to optimize their application usage by executing and billing on application resource consumption.  Traditionally, this execution model was offered by cloud providers in a non-portable manner.  Today, the serverless paradigm is offered on OpenShift - leveraging the innovation happening in the open source Knative project. This brings a key capability for developers to build portable cloud native applications in hybrid and multi-cloud environments.  
+Serverless computing allows developers to optimize their application usage by executing and billing on application resource consumption.  Traditionally, this execution model was offered by cloud providers in a non-portable manner.  Today, the serverless paradigm is offered on OpenShift - leveraging the innovation happening in the open source Knative project. This brings a key capability for developers to build portable cloud native applications in hybrid and multi-cloud environments.
 
 Serverless computing can power many use cases, including machine learning.  Machine learning algorithms build models that can make predictions based on identifying patterns in historical data.  Machine learning models can be loaded and executed in a serverless paradigm, bringing the benefits of the serverless execution model to developers seeking to enhance their cloud native applications with machine learning capabilities.
 
