@@ -1,8 +1,10 @@
 # Setup
 
-As a preqrequisite to running these labs, you will need access to an OpenShift v4.x cluster as a cluster admin.  We also assume you have the `oc` client installed and have logged into your cluster with it.
+As a preqrequisite to running these labs, you will need access to an OpenShift v4.x cluster.  You should also have a few tools installed:
 
-OpenShift Serverless install can be completely done with Operator Hub webconsole or the CLI - we are going to give you a little taste of both by adding the operator via webconsole and then the rest via CLI
+1.  `oc` OpenShift command line tool
+2.  `kn` Serverless command line tool
+3.  `stern` For viewing logs
 
 ## Knative Serving
 Knative serving has already been installed for you.  Verify it now.
@@ -80,6 +82,24 @@ imc-dispatcher-64f6d5fccb-kkc4c        1/1     Running   0          7m18s
 ```
 
 ## Tools
+The environment setup for you to perform this lab should have all the tools pre-installed already.  But if you prefer to use your own terminal on your computer, you can download all of the CLI tooling right from within OpenShift at `$OPENSHIFT_URL/command-line-tools`.  For example if your OpenShift cluster url looks like this:
+
+```
+https://console-openshift-console.apps.cluster-foo.example.opentlc.com
+```
+
+Then you can find the page to download these tools at
+
+```
+https://console-openshift-console.apps.cluster-foo.example.opentlc.com/command-line-tools
+```
+
+You will need:
+
+1.  `oc`
+2.  `kn`
+3.  `stern`
+
 
 ### `kn` CLI
 
