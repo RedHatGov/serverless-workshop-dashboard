@@ -184,7 +184,7 @@ kn func build
 
 You will then get the following prompt.  If you have a dockerhub or quay account, use it here when prompted.  Replace `IMAGE_REPO_USERNAME` with your own username.
 
-```
+```shell
 A registry for function images is required (e.g. 'quay.io/boson').
 
 Registry for function images: quay.io/IMAGE_REPO_USERNAME
