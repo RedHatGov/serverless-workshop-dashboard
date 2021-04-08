@@ -6,7 +6,10 @@
 # OpenShift Serverless Workshop
 This repo contains the lab guides for a workshop on OpenShift Serverless (Knative). These labs have been designed to work within an OpenShift Homeroom deployment. The TL;DR of homeroom is that we build all these labs into a website, stuff that in a container, and deploy that container to the OpenShift cluster that the workshop attendees are using. This lets us show instructions side-by-side with the OpenShift webconsole and CLI terminal.
 
-## Deploying this workshop
+## Deploying this workshop - if you have RHPDS
+We are working on getting this into a click-to-provision environment. It's not there yet, when it is this section will tell you how to order it.
+
+## Deploying this workshop - in your own cluster
 Assuming you have a cluster and that you are logged with admin privileges.
 
 1. Set a local `CLUSTER_SUBDOMAIN` environment variable
