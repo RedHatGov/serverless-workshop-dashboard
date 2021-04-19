@@ -16,7 +16,7 @@ For a developer, yaml might not be their preferred method of deployment, but for
 
 First, make sure you're in the right project.
 
-```
+```execute
 # replace X with your assigned number
 export USER_NUMBER=X
 oc project user$USER_NUMBER
@@ -24,7 +24,7 @@ oc project user$USER_NUMBER
 
 Now let's deploy our `hello-python` app from earlier, this time using a yaml file.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python.yml | oc apply -f -
 ```
 
@@ -53,7 +53,7 @@ spec:
 
 Let's verify that our application was deployed.
 
-```
+```execute
 oc get ksvc
 ```
 
@@ -73,7 +73,7 @@ Hello Python!
 ## Deployment v2
 Let's imagine now that the development team has delivered a new version of the `hello-python` application.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python-v2.yml | oc apply -f -
 ```
 
@@ -101,7 +101,7 @@ spec:
 
 Let's verify that our new version was deployed.
 
-```
+```execute
 oc get ksvc
 ```
 
@@ -126,7 +126,7 @@ At a high level, blue-green deployment is the idea of having v1 (blue) running a
 
 Let's reset all traffic back to v1.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python-blue.yml | oc apply -f -
 ```
 
@@ -146,7 +146,7 @@ This directs all traffic back to v1 of our application.  Refresh the page and yo
 
 Then let's pretend our team gets approval to switch to v2, we can apply the following to switch all traffic over.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python-green.yml | oc apply -f -
 ```
 
@@ -171,7 +171,7 @@ The immutable revisions coupled with our ability to configure traffic distributi
 
 Let's try a canary deployment now.
 
-```
+```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python-canary.yml | oc apply -f -
 ```
 
@@ -190,7 +190,7 @@ Notice the traffic is split 50/50.
 
 The 50/50 is just an approximation, so don't expect this to be exact, but let's verify that traffic is indeed being split.
 
-```
+```execute
 KNATIVE_SERVICE=$(oc get ksvc -o=jsonpath='{ .items[0].status.url }')
 while true; do sleep 1; curl $KNATIVE_SERVICE; echo "";done
 ```

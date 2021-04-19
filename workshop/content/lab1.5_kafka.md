@@ -127,7 +127,7 @@ oc project    # Using project "user$USER_NUMBER" on server...
 
 Let's also make sure your user number is set.
 
-```
+```execute
 export USER_NUMBER=x    # replace x with your number
 ```
 
@@ -208,7 +208,7 @@ oc run kafka-producer -ti --image=strimzi/kafka:0.19.0-kafka-2.5.0 --rm=true --r
 
 In another terminal run:
 
-```execute
+```execute-2
 stern eventinghello -c user-container
 ```
 
@@ -236,7 +236,7 @@ watch oc get pods
 
 In another terminal, run the kafka-spammer:
 
-```execute
+```execute-2
 oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=10
 ```
 
@@ -249,7 +249,7 @@ eventinghello-v1-deployment-f48945f8b-56sal                       2/2     Runnin
 
 If you want to, feel free to open another terminal to watch the logs:
 
-```execute
+```execute-2
 stern eventinghello -c user-container
 ```
 

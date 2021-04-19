@@ -10,7 +10,7 @@ The second major win is that deploying to a development kubernetes environment b
 1.  Use project/namespace with assigned user number
 Make sure you are logged in first with the `oc login` command
 
-```
+```execute
 # replace X with your assigned number
 export USER_NUMBER=X
 oc project user$USER_NUMBER
@@ -65,7 +65,7 @@ hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Running     0        
 
 In another terminal, curl the endpoint:
 
-```execute
+```execute-2
 HELLO_URL=$(oc get route.serving.knative.dev hello-python --template='{{.status.url}}')
 curl $HELLO_URL
 ```
@@ -108,7 +108,7 @@ The `hello-python` should not be running.
 
 In another terminal we'll curl the endpoint again.
 
-```execute
+```execute-2
 curl $HELLO_URL
 ```
 
