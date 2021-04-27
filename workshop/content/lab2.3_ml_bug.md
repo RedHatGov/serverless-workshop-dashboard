@@ -146,7 +146,7 @@ Let's try sending the sample requests again.
 > Execute the following steps in your CodeReady Workspace terminal.
 
 ```
-curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
+curl -X POST -d 'Body=nothing to see here' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
 This returns 'No disaster'.
