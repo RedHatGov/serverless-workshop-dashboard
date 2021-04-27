@@ -172,7 +172,7 @@ Let's leverage this to test our fix in OpenShift Serverless before we deploy thi
 Build the container image:
 
 ```execute
-oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name prediction-2 --context-dir=model/prediction --to prediction
+oc new-build python:3.6-ubi8~https://github.com/RedHatGov/serverless-workshop-code --name prediction-2 --context-dir=model/prediction --to prediction
 ```
 
 Wait until the build completes:
