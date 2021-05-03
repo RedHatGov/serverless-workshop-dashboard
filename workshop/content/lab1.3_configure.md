@@ -85,3 +85,39 @@ mt-broker-filter-7c8ff49f98-mbklc           1/1     Running   0          28m
 mt-broker-ingress-5458f4c5bc-wzttt          1/1     Running   0          28m
 sugar-controller-5f6fb848b8-2shg8           1/1     Running   0          28m
 ```
+
+## Tools
+The environment setup for you to perform this lab should have all the tools pre-installed already.  But if you prefer to use your own terminal on your computer, you can download all of the CLI tooling right from within OpenShift at `$OPENSHIFT_URL/command-line-tools`.  For example if your OpenShift cluster url looks like this:
+
+```
+https://console-openshift-console.apps.cluster-foo.example.opentlc.com
+```
+
+Then you can find the page to download these tools at
+
+```
+https://console-openshift-console.apps.cluster-foo.example.opentlc.com/command-line-tools
+```
+
+You will need:
+
+1.  `oc`
+2.  `kn`
+3.  `stern`
+
+
+### `kn` CLI
+
+`kn` is a very powerful tool for being able to control knative from the command line. Verify that you have it installed by running:
+
+```execute
+kn version
+```
+
+### `stern` CLI
+
+`stern` is a great tool to easily be able to view logs for a particular container.  Verify that you have it installed by running:
+
+```execute
+stern -v
+```
