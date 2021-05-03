@@ -150,7 +150,7 @@ We have a Kafka topic, we should now go ahead and create the Kafka topic.  First
 USER_NUMBER=$(oc whoami | sed 's/user//')
 ```
 
-```execute2
+```execute-2
 USER_NUMBER=$(oc whoami | sed 's/user//')
 ```
 
@@ -258,7 +258,7 @@ pod "kafka-spammer" deleted
 
 Now, try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more:
 
-```execute2
+```execute-2
 oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=100
 ```
 
