@@ -7,13 +7,29 @@ The second major win is that deploying to a development kubernetes environment b
 
 ## Deploy Service
 
-1.  Use project/namespace with assigned user number
-Make sure you are logged in first with the `oc login` command
+1.  Use your project
+
+You will use the OpenShift `oc` CLI  to execute commands for the majority of this lab.  You should already be logged in to your cluster in your web terminal.
+
+Switch to the **Terminal** tab, and try running:
 
 ```execute
-# replace X with your assigned number
-export USER_NUMBER=X
-oc project user$USER_NUMBER
+oc whoami
+```
+*You can click the play button in the top right corner of the code block to automatically execute the command for you.*
+
+You should see your username: %username%.
+
+The instructor will have preconfigured your project for you.  List your project.
+
+```execute
+oc projects
+```
+
+You should see your user project '%username%'. Switch to your user project.  For example:
+
+```execute
+oc project %username%
 ```
 
 2.  Build the project

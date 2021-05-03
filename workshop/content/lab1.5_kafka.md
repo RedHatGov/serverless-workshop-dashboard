@@ -119,20 +119,6 @@ Spec:
 ### Create Sink
 We will now create a sink, a final destination for Kafka events flowing through the system. In this case, it will be a Serverless service. Let's create one now.
 
-First let's make sure you are still in the right project.
-
-```execute
-oc project    # Using project "user$USER_NUMBER" on server...
-```
-
-Let's also make sure your user number is set.
-
-```execute
-export USER_NUMBER=x    # replace x with your number
-```
-
-Now we can create our sink.
-
 ```execute
 oc apply -f https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-sink.yml
 ```
@@ -158,6 +144,14 @@ Note, if you didn't run the `stern` command within ~90s of creating the sink, th
 
 ### Create Topic
 We have a Kafka topic, we should now go ahead and create the Kafka topic.
+
+First set your USER_NUMBER.
+
+```execute
+USER_NUMBER=$(oc whoami | sed 's/user//')
+```
+
+Now create the topic.
 
 ```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
