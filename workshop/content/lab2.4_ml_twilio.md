@@ -22,11 +22,16 @@ Here are the instructions:
 
 Now that you have a Twilio phone number, you need to configure a webhook URL.  Whenever a message arrives to your Twilio phone number, it will call the webhook URL and send back a reply.  In this case, the webhook URL is your prediction service endpoint.
 
+Update your prediction service to run a minimum of 1 replica:
+
+```execute
+kn service update prediction --min-scale 1
+```
+
 Make note of your prediction endpoint:
 
 ```execute
-PREDICTION_URL=$(oc get route.serving.knative.dev prediction --template='{{.status.url}}/predict')
-echo $PREDICTION_URL
+echo $(oc get route.serving.knative.dev prediction --template='{{.status.url}}/predict')
 ```
 
 Here are the instructions:
