@@ -62,7 +62,7 @@ mt-broker-ingress-6b9f847866-bhk5w                 1/1     Running     0        
 sugar-controller-594784974b-rpvsm                  1/1     Running     0          3d13h
 ```
 
-We can also see the various kinds of objects we will be using, starting first with the eventing sources.  Notice the `KafkaSource` api resource.
+We can also see the various kinds of objects we will be using. Run the following command to see the event sources. These are incoming sources that we can use Knative to easily hook into - notice one of them is for Kafka messages.
 
 ```execute
 oc api-resources --api-group='sources.knative.dev'
@@ -99,21 +99,20 @@ Channels are the mechanism that actually forward events through the system, from
 Let's verify that we are configured to use the `KafkaChannel`.
 
 ```execute
-oc describe KnativeEventing knative-eventing -n knative-eventing
+oc get KnativeEventing/knative-eventing -n knative-eventing -o json | yq r - -P 'spec.config'
 ```
 
 You can see the default for `kafka` is `KafkaChannel`.  Here's the relevant snippet:
 
 ```
-Spec:
-  Config:
-    Default - Ch - Webhook:
-      Default - Ch - Config:  clusterDefault:
-  apiVersion: messaging.knative.dev/v1beta1
-  kind: KafkaChannel
-  spec:
-    numPartitions: 1
-    replicationFactor: 1
+default-ch-webhook:
+  default-ch-config: |
+    clusterDefault:
+      apiVersion: messaging.knative.dev/v1beta1
+      kind: KafkaChannel
+      spec:
+        numPartitions: 1
+        replicationFactor: 1
 ```
 
 ### Create Sink
@@ -142,8 +141,20 @@ stern eventinghello -c user-container
 
 Note, if you didn't run the `stern` command within ~90s of creating the sink, the container might have spun back down, but that's ok, you can keep going.
 
+Make sure to `ctrl-c` after you are done viewing the logs.
+
 ### Create Topic
-We have a Kafka topic, we should now go ahead and create the Kafka topic.
+We have a Kafka topic, we should now go ahead and create the Kafka topic.  First set your USER_NUMBER in both terminals.
+
+```execute
+USER_NUMBER=$(oc whoami | sed 's/user//')
+```
+
+```execute-2
+USER_NUMBER=$(oc whoami | sed 's/user//')
+```
+
+Now create the topic.
 
 First set your USER_NUMBER.
 
@@ -186,8 +197,6 @@ oc get kafkasource
 NAME             TOPICS           BOOTSTRAPSERVERS                                      READY   REASON   AGE
 mykafka-source   ["my-topic-USER_NUMBER"]   ["my-cluster-kafka-bootstrap.kafka:9092"]   True             8s
 ```
-
-Using the web browser, click on over to the `Developer` view.  Then click `Topology` and make sure you are in the correct project (%username%).  You can then verify the KafkaSource is configured correctly.
 
 ![Serverless Kafka Source](./images/serverless_kafka_source.png)
 
@@ -241,22 +250,31 @@ NAME                                                              READY   STATUS
 eventinghello-v1-deployment-f48945f8b-56sal                       2/2     Running   0          9s
 ```
 
-If you want to, feel free to open another terminal to watch the logs:
+In the second terminal you will see the following after it's done:
 
-```execute-2
-stern eventinghello -c user-container
+```
+pod "kafka-spammer" deleted
 ```
 
-And try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more:
+Now, try to run the `kafka-spammer` again, this time, increasing `TIMES` to 100 or more:
 
-```execute
-oc delete pod kafka-spammer
+```execute-2
 oc run kafka-spammer -it --image=jonnyman9/kafka-python-spammer:latest --rm=true --restart=Never --env KAFKA_BOOTSTRAP_HOST=my-cluster-kafka-bootstrap.kafka --env TOPIC_NAME=my-topic-$USER_NUMBER --env TIMES=100
 ```
 
 The Serverless system will spin up enough Serverless applications that are required in order to keep up with processing of the Kafka events.  Our application doesn't do much and as a result is able to keep up the volume of events that we push through the system.
 
+In the second terminal you will see the following after it's done:
+
+```
+pod "kafka-spammer" deleted
+```
+
+After, select the top terminal and press `ctrl-c` to stop watching the pods.
+
 ###  Cleanup
+
+Finally let's delete the kafkasource, kafkatopic, and knative service.
 
 ```execute
 oc delete kafkasource mykafka-source
