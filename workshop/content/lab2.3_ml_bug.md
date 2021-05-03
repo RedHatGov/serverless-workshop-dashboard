@@ -2,17 +2,6 @@
 
 In this lab, you will debug the NLP Prediction Service using [CodeReady Workspaces][1], an in-browser IDE running on OpenShift.  We have defined a workspace for you using a [devfile][2], which CodeReady Workspaces uses to create your workspace.  After debugging, you will release a new version of the code using OpenShift Serverless.
 
-## Prep
-
-Make a note of the following environment variables.  You will need to set these in your CodeReady Workspace terminal.
-
-```execute
-echo $AWS_ACCESS_KEY_ID
-echo $AWS_SECRET_ACCESS_KEY
-echo $ENDPOINT_URL
-echo $BUCKET_NAME
-```
-
 ## Debug
 
 Get the endpoint to CodeReady and our devfile:
@@ -33,7 +22,7 @@ CodeReady creates a workspace for you using the devfile specified in our repo.  
 
 ![CRW Welcome](images/crw_welcome.png)
 
-Let's pull up the code for debugging.  On the left, click the 'Explorer' icon:
+Let's pull up the code for debugging.  On the left, click the 'Explorer' icon to see your projects and folders:
 
 ![Explorer Icon](images/crw_explorer_icon.png)
 
@@ -71,17 +60,25 @@ Install the python dependencies:
 pip install -r requirements.txt
 ```
 
-Set your environment variables.  Make sure to substitute your values:
+Set your environment variables.
+
+> Switch to your workshop terminal and run:
 
 ```
-export AWS_ACCESS_KEY_ID=  
-export AWS_SECRET_ACCESS_KEY= 
-export ENDPOINT_URL=
-export BUCKET_NAME=
-export MODEL_FILE_NAME=model.pkl
+echo export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+echo export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+echo export ENDPOINT_URL=$ENDPOINT_URL
+echo export BUCKET_NAME=$BUCKET_NAME
+echo export MODEL_FILE_NAME=model.pkl
 ```
 
-Run the app locally in your CodeReady Workspace terminal:
+**Copy** this output to your clipboard.
+
+> Switch back to your CodeReady Workspaces terminal.
+
+**Paste** the above output in your terminal.
+
+Next, run the app locally in your CodeReady Workspace terminal:
 
 ```
 FLASK_APP=prediction.py FLASK_ENV=development flask run
@@ -97,6 +94,8 @@ FLASK_APP=prediction.py FLASK_ENV=development flask run
  * Debug mode: on
  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 ```
+
+> If you see a prompt that says "A new process is now listening on port 5000...You should change to be remotely available...", select **no** because we will execute this locally.
 
 The application is now running locally in CodeReady Workspace.  Open another terminal using the 'python' development container.  You should see:
 
