@@ -14,15 +14,7 @@ For a developer, yaml might not be their preferred method of deployment, but for
 
 ## Deployment
 
-First, make sure you're in the right project.
-
-```execute
-# replace X with your assigned number
-export USER_NUMBER=X
-oc project user$USER_NUMBER
-```
-
-Now let's deploy our `hello-python` app from earlier, this time using a yaml file.
+Let's deploy our `hello-python` app from earlier, this time using a yaml file.
 
 ```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/deployment/hello-python.yml | oc apply -f -
