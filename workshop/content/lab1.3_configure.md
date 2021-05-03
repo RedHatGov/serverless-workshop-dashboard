@@ -29,19 +29,21 @@ oc get pods -n knative-serving
 
 You should see something like the following:
 ```
-NAME                                               READY   STATUS      RESTARTS   AGE
-eventing-controller-848bcbd4f9-7zz68               1/1     Running     0          3d13h
-eventing-webhook-78dcf96448-6568h                  1/1     Running     0          3d13h
-imc-controller-8559ff856b-2sdk6                    1/1     Running     0          3d13h
-imc-dispatcher-575c7fcd8d-lrpmt                    1/1     Running     0          3d13h
-kafka-ch-controller-85f879d577-llzvp               1/1     Running     0          3d13h
-kafka-ch-dispatcher-55d76d7db8-q9xzw               1/1     Running     0          3d13h
-kafka-controller-manager-bc994c465-t5lv4           1/1     Running     0          3d13h
-kafka-webhook-54646f474f-qstvz                     1/1     Running     0          3d13h
-mt-broker-controller-56857cccc5-h49sp              1/1     Running     0          3d13h
-mt-broker-filter-784b7db965-5ngkk                  1/1     Running     0          3d13h
-mt-broker-ingress-6b9f847866-bhk5w                 1/1     Running     0          3d13h
-sugar-controller-594784974b-rpvsm                  1/1     Running     0          3d13h
+NAME                                                     READY   STATUS      RESTARTS   AGE
+activator-58fb6669f6-hkzr7                               2/2     Running     0          90s
+activator-58fb6669f6-tltgh                               2/2     Running     0          104s
+autoscaler-769678c97d-btrrp                              2/2     Running     0          104s
+autoscaler-hpa-cd895c4bf-cfdvl                           2/2     Running     0          102s
+autoscaler-hpa-cd895c4bf-m447l                           2/2     Running     0          102s
+controller-69ccdc78fc-bb9fl                              2/2     Running     0          103s
+controller-69ccdc78fc-vxlj6                              2/2     Running     0          85s
+domain-mapping-6655558fc4-rzgwb                          2/2     Running     0          100s
+domainmapping-webhook-7d8b776b4-rvhm4                    2/2     Running     0          100s
+kn-cli-00001-deployment-7666bf67dc-z2qd2                 2/2     Running     0          64s
+kn-cli-00002-deployment-557655bfd9-bqhh6                 2/2     Running     0          64s
+storage-version-migration-serving-serving-0.20.0-hd7ws   0/1     Completed   0          99s
+webhook-576b57b4d6-jtphz                                 2/2     Running     0          88s
+webhook-576b57b4d6-ml6b8                                 2/2     Running     0          103s
 ```
 
 
@@ -69,12 +71,19 @@ oc get pods -n knative-eventing
 
 You should see something like the following:
 ```
-NAME                                   READY   STATUS    RESTARTS   AGE
-broker-controller-58765d9d49-g9zp6     1/1     Running   0          7m21s
-eventing-controller-65fdd66b54-jw7bh   1/1     Running   0          7m31s
-eventing-webhook-57fd74b5bd-kvhlz      1/1     Running   0          7m31s
-imc-controller-5b75d458fc-ptvm2        1/1     Running   0          7m19s
-imc-dispatcher-64f6d5fccb-kkc4c        1/1     Running   0          7m18s
+NAME                                        READY   STATUS    RESTARTS   AGE
+eventing-controller-7b9cdbf9cf-9sszp        1/1     Running   0          28m
+eventing-webhook-b8f8cdc96-swgh2            1/1     Running   0          28m
+imc-controller-55dc57b4d-7b675              1/1     Running   0          28m
+imc-dispatcher-79f447d6f-w4nc5              1/1     Running   0          28m
+kafka-ch-controller-fd859cc5f-nrk8d         1/1     Running   0          2m6s
+kafka-ch-dispatcher-649945777d-q88pq        1/1     Running   0          2m6s
+kafka-controller-manager-79644f667f-jpkjb   1/1     Running   0          2m6s
+kafka-webhook-68db549d7-hk59h               1/1     Running   0          2m6s
+mt-broker-controller-55d65b468b-gvfzx       1/1     Running   0          28m
+mt-broker-filter-7c8ff49f98-mbklc           1/1     Running   0          28m
+mt-broker-ingress-5458f4c5bc-wzttt          1/1     Running   0          28m
+sugar-controller-5f6fb848b8-2shg8           1/1     Running   0          28m
 ```
 
 ## Tools
