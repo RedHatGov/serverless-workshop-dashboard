@@ -1,4 +1,4 @@
-# The Developer Stakeholder
+# Developers Run
 There are many types of users from different types of roles that can all benefit from Serverless. In this section, we will be exploring how Serverless can immediately improve a developer's workflow and productivity.
 
 The first major win is that it frees the developer to simply focus on their application code.  No need to worry about complicated frameworks or application servers that dictate to the developer how they should solve the business problem.
@@ -24,10 +24,19 @@ Build the project and wait until build succeeds.
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python --strategy=docker
 ```
 
-3.  Deploy the service
+3.  Get the image URI
+
+The result of the build produced an image for us.  Let's get the location of that image.
 
 ```execute
 HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
+```
+
+4.  Deploy the service
+
+Deploying the image is as simple as giving it a name, `hello-python`, an image location, and whatever environment variables our application needs.
+
+```execute
 kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
 ```
 
@@ -47,7 +56,7 @@ Service 'hello-python' created to latest revision 'hello-python-dydsc-1' is avai
 http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.com
 ```
 
-4.  Test it
+5.  Test it
 
 In one terminal, watch the pods:
 
@@ -55,7 +64,7 @@ In one terminal, watch the pods:
 oc get pods -w
 ```
 
-You should see:
+Watch the pods and after about 2 minutes, the `hello-python-foo-deployment-bar` pod will become `2/2 Running` like the example below.  This means it's ready.
 
 ```
 NAME                                               READY   STATUS      RESTARTS   AGE
@@ -76,7 +85,7 @@ You should see:
 Hello Python!
 ```
 
-After ~90s of idle time, you should see the `hello-python` service transition to `Terminating` before ultimately being removed.
+Now let's wait to watch it spin down.  Keep your eyes on the top terminal where you are running the `oc get pods -w` until you see "Terminating".  This will take about 90s by default, and is fully configurable.
 
 ```
 NAME                                               READY   STATUS      RESTARTS   AGE
@@ -84,6 +93,7 @@ hello-python-1-build                               0/1     Completed   0        
 hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Terminating 0          67s
 ```
 
+This is one of the coolest aspects of Serverless, truly elastic in both directions, scaling both up and down based on usage.  Before we move onto the next section, let's stop watching the pods by clicking the top terminal and pressing `ctrl-c`.
 
 ## Update Service
 
