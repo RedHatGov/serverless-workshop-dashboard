@@ -156,14 +156,6 @@ USER_NUMBER=$(oc whoami | sed 's/user//')
 
 Now create the topic.
 
-First set your USER_NUMBER.
-
-```execute
-USER_NUMBER=$(oc whoami | sed 's/user//')
-```
-
-Now create the topic.
-
 ```execute
 curl -sS https://raw.githubusercontent.com/RedHatGov/serverless-workshop-code/main/kafka/kafka-topic.yml | sed "s/USER_NUMBER/$USER_NUMBER/" | oc apply -f -
 ```
