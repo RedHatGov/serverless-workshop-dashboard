@@ -87,24 +87,7 @@ sugar-controller-5f6fb848b8-2shg8           1/1     Running   0          28m
 ```
 
 ## Tools
-The environment setup for you to perform this lab should have all the tools pre-installed already.  But if you prefer to use your own terminal on your computer, you can download all of the CLI tooling right from within OpenShift at `$OPENSHIFT_URL/command-line-tools`.  For example if your OpenShift cluster url looks like this:
-
-```
-https://console-openshift-console.apps.cluster-foo.example.opentlc.com
-```
-
-Then you can find the page to download these tools at
-
-```
-https://console-openshift-console.apps.cluster-foo.example.opentlc.com/command-line-tools
-```
-
-You will need:
-
-1.  `oc`
-2.  `kn`
-3.  `stern`
-
+The environment set up for you to perform this lab should have all the tools pre-installed already. The oc and kn tools are available on OpenShift at https://console-openshift-console.%cluster_subdomain%/command-line-tools.
 
 ### `kn` CLI
 
