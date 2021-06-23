@@ -117,9 +117,7 @@ Now say a new requirement has come in that we need to say `Hello Pythonistas` in
 
 ### Deploy the updated service
 ```execute
-kn service update hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas
-# can alternatively force create instead of update
-# kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas --force
+kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas --force
 ```
 
 ### Test it
