@@ -34,18 +34,23 @@ oc project %username%
 
 ### Build the project
 
-Build the project and wait until build succeeds.
+Trigger a build of the application by using OpenShift's build capability.
 
 ```execute
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python --strategy=docker
 ```
 
-### Get the image URI
-
-The result of the build produced an image for us.  Let's get the location of that image.
+Watch the pods until the build succeeds.
 
 ```execute
-HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
+oc get pods -w
+```
+
+Wait for the completed status.
+
+```
+NAME                   READY   STATUS      RESTARTS   AGE
+hello-python-1-build   0/1     Completed   0          9m44s
 ```
 
 ### Deploy the service
@@ -53,7 +58,7 @@ HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageReposi
 Deploying the image is as simple as giving it a name, `hello-python`, an image location, and whatever environment variables our application needs.
 
 ```execute
-kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
+kn service create hello-python --image image-registry.openshift-image-registry.svc:5000/%username%/hello-python --env TARGET=Python
 ```
 
 Your output should look similar to:
@@ -117,7 +122,7 @@ Now say a new requirement has come in that we need to say `Hello Pythonistas` in
 
 ### Deploy the updated service
 ```execute
-kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas --force
+kn service create hello-python --image image-registry.openshift-image-registry.svc:5000/%username%/hello-python --env TARGET=Pythonistas --force
 ```
 
 ### Test it
