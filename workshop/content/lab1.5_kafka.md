@@ -164,7 +164,6 @@ Verify it was created:
 
 ```execute
 oc get kafkatopics
-# a nice shortcut is `oc get kt`
 ```
 
 ```
@@ -216,8 +215,7 @@ eventinghello-v1-deployment-5dc76db76c-6b7np user-container 2021-01-12 17:31:57,
 When you are done, send the kill command to each terminal (ctrl-c) and make sure the `kafka-producer` pod is properly deleted.
 
 ```execute
-oc delete pod kafka-producer
-# it's ok to get "error: the server doesn't have a resource type "kafka-producer""
+oc delete pod kafka-producer --ignore-not-found
 ```
 
 ### Turn on the Firehose
