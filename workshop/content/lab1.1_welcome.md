@@ -3,17 +3,12 @@ The word taken at face value, is a bit of a misnomer.  More accurately, "serverl
 There is a nice analogy to all this.  Let's say you're in a coffee shop and they say they offer all guests "free wireless internet".  We know somewhere there must be wires, for example from the modem to the router.  But what's important here is that for you, the guest, there are no wires.  This same concept applies to the term serverless.
 
 ## Why serverless?
-Smaller pieces of code, faster to develop, easier to bug fix and iterate on.  Truly elastic, easy and quick to spin up and down based on realtime usage.  Only using the resources you need, when you need it.  Loosely coupled, event driven architecture allowing for completely independent scaling.  Agility, scalability, elasticity, all at a lower cost.
+There are a lot of benefits to using serverless. One of the most popular is the productivity gain that development teams get by reducing their scope and areas of concerns in their deployable artifacts.  Coupled with the ability to spin up quickly to handle bursts in traffic, and the ability to dynamically spin back down when there is no traffic, this means our application is truly elastic.  This leads to additional added benefits, such as:
 
-* elasticity
-* scalability
-* performance
 * lower cost
 * faster time from inception to market
-* agility
+* agility and speed
 * easier experimentation
-* simpler/smaller deliverables
-* freedom of language and tools
 
 ## What is a Serverless?
 If the concerns have been pushed away from the developer, how does this actually work?  How does code get turned into an artifact that we can run and how does it get deployed?
