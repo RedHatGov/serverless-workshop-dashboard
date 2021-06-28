@@ -7,7 +7,7 @@ The second major win is that deploying to a development kubernetes environment b
 
 ## Deploy Service
 
-1.  Use your project
+### Use your project
 
 You will use the OpenShift `oc` CLI  to execute commands for the majority of this lab.  You should already be logged in to your cluster in your web terminal.
 
@@ -32,28 +32,33 @@ You should see your user project '%username%'. Switch to your user project.  For
 oc project %username%
 ```
 
-2.  Build the project
+### Build the project
 
-Build the project and wait until build succeeds.
+Trigger a build of the application by using OpenShift's build capability.
 
 ```execute
 oc new-build python:3.6~https://github.com/RedHatGov/serverless-workshop-code --name hello-python --context-dir=hello-python --strategy=docker
 ```
 
-3.  Get the image URI
-
-The result of the build produced an image for us.  Let's get the location of that image.
+Watch the pods until the build succeeds.
 
 ```execute
-HELLO_IMAGE_URI=$(oc get is hello-python --template='{{.status.dockerImageRepository}}')
+oc get pods -w
 ```
 
-4.  Deploy the service
+Wait for the completed status.
+
+```
+NAME                   READY   STATUS      RESTARTS   AGE
+hello-python-1-build   0/1     Completed   0          9m44s
+```
+
+### Deploy the service
 
 Deploying the image is as simple as giving it a name, `hello-python`, an image location, and whatever environment variables our application needs.
 
 ```execute
-kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Python
+kn service create hello-python --image image-registry.openshift-image-registry.svc:5000/%username%/hello-python --env TARGET=Python
 ```
 
 Your output should look similar to:
@@ -72,7 +77,7 @@ Service 'hello-python' created to latest revision 'hello-python-dydsc-1' is avai
 http://hello-python-hello.apps.cluster-tysons-4d23.tysons-4d23.example.opentlc.com
 ```
 
-5.  Test it
+### Test it
 
 In one terminal, watch the pods:
 
@@ -115,14 +120,12 @@ This is one of the coolest aspects of Serverless, truly elastic in both directio
 
 Now say a new requirement has come in that we need to say `Hello Pythonistas` instead of `Hello Python`.
 
-1.  Deploy the updated service
+### Deploy the updated service
 ```execute
-kn service update hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas
-# can alternatively force create instead of update
-# kn service create hello-python --image $HELLO_IMAGE_URI --env TARGET=Pythonistas -f
+kn service create hello-python --image image-registry.openshift-image-registry.svc:5000/%username%/hello-python --env TARGET=Pythonistas --force
 ```
 
-2.  Test it
+### Test it
 
 Ensure you are still watching the pods, if not, in one terminal run:
 
@@ -148,7 +151,7 @@ Hello Pythonistas!
 
 If you wait another ~90s, then you will see the `hello-python` service again be destroyed.
 
-3.  Delete service
+### Delete service
 
 ```execute
 kn service delete hello-python
