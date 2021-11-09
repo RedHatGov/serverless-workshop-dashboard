@@ -141,7 +141,11 @@ stern eventinghello -c user-container
 
 Note, if you didn't run the `stern` command within ~90s of creating the sink, the container might have spun back down, but that's ok, you can keep going.
 
-Make sure to `ctrl-c` after you are done viewing the logs.
+Stop viewing the logs after you are done.
+
+```execute
+<ctrl+c>
+```
 
 ### Create Topic
 We have a Kafka topic, we should now go ahead and create the Kafka topic.  First set your USER_NUMBER in both terminals.
@@ -212,7 +216,21 @@ Every message you type into the producer, will appear in the knative service log
 eventinghello-v1-deployment-5dc76db76c-6b7np user-container 2021-01-12 17:31:57,326 INFO  [eventing-hello] (executor-thread-1) POST:this is a test
 ```
 
-When you are done, send the kill command to each terminal (ctrl-c) and make sure the `kafka-producer` pod is properly deleted.
+When you are done, send the kill command to each terminal.
+
+First terminal:
+
+```execute
+<ctrl+c>
+```
+
+Second terminal:
+
+```execute-2
+<ctrl+c>
+```
+
+Make sure the `kafka-producer` pod is properly deleted.
 
 ```execute
 oc delete pod kafka-producer --ignore-not-found
