@@ -64,12 +64,13 @@ Set your environment variables.
 
 > Switch to your workshop terminal and run:
 
-```
-echo export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-echo export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-echo export ENDPOINT_URL=$ENDPOINT_URL
-echo export BUCKET_NAME=$BUCKET_NAME
-echo export MODEL_FILE_NAME=model.pkl
+```execute
+echo export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID >> export.txt
+echo export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY >> export.txt
+echo export ENDPOINT_URL=$ENDPOINT_URL >> export.txt
+echo export BUCKET_NAME=$BUCKET_NAME >> export.txt
+echo export MODEL_FILE_NAME=model.pkl >> export.txt
+cat export.txt
 ```
 
 **Copy** this output to your clipboard.
