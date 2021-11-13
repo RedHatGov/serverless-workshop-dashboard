@@ -114,7 +114,11 @@ hello-python-1-build                               0/1     Completed   0        
 hello-python-dydsc-1-deployment-6b6ffd68cb-njqx4   2/2     Terminating 0          67s
 ```
 
-This is one of the coolest aspects of Serverless, truly elastic in both directions, scaling both up and down based on usage.  Before we move onto the next section, let's stop watching the pods by clicking the top terminal and pressing `ctrl-c`.
+This is one of the coolest aspects of Serverless, truly elastic in both directions, scaling both up and down based on usage.  Before we move onto the next section, let's stop watching the pods.
+
+```execute
+<ctrl+c>
+```
 
 ## Update Service
 
