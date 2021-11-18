@@ -1,6 +1,6 @@
 # Build machine learning API
 
-In this lab, you will build and deploy the NLP Prediction Service using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Container Storage][1].  
+In this lab, you will build and deploy the NLP Prediction Service using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Data Foundation][1] (ODF).  
 
 The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled **1** (the tweet is about a real disater) or **0** (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multinomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
 
@@ -8,7 +8,7 @@ Don't worry too much about the ML details.  The model isn't perfect (it's not su
 
 ## NLP Model
 
-First, let's make sure a storage bucket was created in OCS:
+First, let's make sure a storage bucket was created in ODF:
 
 ```execute
 oc get objectbucket
@@ -64,7 +64,7 @@ prediction-1-build   0/1     Completed   0          2m4s
 
 After the container image is ready, we need to prepare the external configuration for the service.  This includes:
 
-1. Credentials to access OCS
+1. Credentials to access ODF
 2. Storage bucket and endpoint (where the model is hosted) and file name (the name of the model file itself)
 
 The secret `serverless-workshop-ml` already exists for #1.  For #2, we'll set these directly as environment variables when you deploy the service.
@@ -121,7 +121,7 @@ The NLP model should have predicted that this is a legitimate message.  What hap
 
 You built the NLP Prediction Service and deployed it using OpenShift Serverless with our pre-built ML model.  However, the prediction service seems to be broken.  We will debug and figure out what is going on in the next lab.
 
-[1]: https://www.redhat.com/en/technologies/cloud-computing/openshift-container-storage
+[1]: https://www.redhat.com/en/technologies/cloud-computing/openshift-data-foundation
 [2]: https://www.kaggle.com/vbmokin/nlp-with-disaster-tweets-cleaning-data
 [3]: https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html
 [4]: https://github.com/RedHatGov/serverless-workshop-code/blob/workshop/model/training/train.py

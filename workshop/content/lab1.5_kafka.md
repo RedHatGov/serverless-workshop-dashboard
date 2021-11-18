@@ -150,9 +150,13 @@ Stop viewing the logs after you are done.
 ### Create Topic
 We have a Kafka topic, we should now go ahead and create the Kafka topic.  First set your USER_NUMBER in both terminals.
 
+First terminal:
+
 ```execute
 USER_NUMBER=$(oc whoami | sed 's/user//')
 ```
+
+Second terminal:
 
 ```execute-2
 USER_NUMBER=$(oc whoami | sed 's/user//')

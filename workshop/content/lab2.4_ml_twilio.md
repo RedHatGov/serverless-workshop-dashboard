@@ -31,7 +31,7 @@ kn service update prediction --min-scale 1
 Make note of your prediction endpoint:
 
 ```execute
-echo $(oc get route.serving.knative.dev prediction --template='{{.status.url}}/predict')
+echo $'\n'$(oc get route.serving.knative.dev prediction --template='{{.status.url}}/predict')$'\n'
 ```
 
 Here are the instructions:
