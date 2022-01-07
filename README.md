@@ -10,7 +10,9 @@ This repo contains the lab guides for a workshop on OpenShift Serverless (Knativ
 
 ### Order from RHPDS
 
-TBD
+In the catalog, navigate to [All Services] -> [Openshift Workshop] -> [OpenShift 4 ML Serverless]
+
+Make sure to set select Size "Small" or "Large".  Also set the "Users" count with the expected number of participants in your workshop.
 
 ### AgnosticD Deployment
 
