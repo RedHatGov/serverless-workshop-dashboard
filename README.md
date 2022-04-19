@@ -14,6 +14,7 @@ In the catalog, navigate to [All Services] -> [Openshift Workshop] -> [OpenShift
 
 Make sure to set select Size "Small" or "Large".  Also set the "Users" count with the expected number of participants in your workshop.
 
+If you are an admin, [you can find the workshop guide here](https://docs.google.com/document/d/12JdE4M9MC7n9nCnrhFwy5U2cAUyfBxs_Mnk3Fm2u7Qk/edit)
 
 ## Access info for the workshop
 > Make sure you provisioned the workshop using RHPDS or [ran the AgnosticD role](./README-AgnosticD.md) on the cluster.
