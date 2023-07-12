@@ -7,7 +7,7 @@ In this lab, you will debug the NLP Prediction Service using [CodeReady Workspac
 Get the endpoint to CodeReady and our devfile:
 
 ```execute
-echo $'\n'$(oc whoami --show-server | sed 's/api/devspaces.apps/' | sed 's/:6443//')#https://devspaces.apps.cluster-8lb2m.8lb2m.sandbox2135.opentlc.com#https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
+echo $'\n'https://$(oc get route devspaces -n openshift-devspaces --template='{{.spec.host}}')/f?url=https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
 ```
 
 Open the link in your browser.  Login using your username and password.  Authorize access to your account when requested.

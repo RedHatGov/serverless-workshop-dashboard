@@ -14,16 +14,16 @@ RUN wget https://github.com/stern/stern/releases/download/v1.25.0/stern_1.25.0_l
     tar -xf ./stern_1.25.0_linux_amd64.tar.gz && \
     mv ./stern /usr/local/bin && \
     rm ./stern_1.25.0_linux_amd64.tar.gz && \
-    chown 1001 /usr/local/bin/stern && \
-    chmod 550 /usr/local/bin/stern
+    chown root:root /usr/local/bin/stern && \
+    chmod 755 /usr/local/bin/stern
 
 # install kn
 RUN wget https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/serverless/1.8.1/kn-linux-amd64.tar.gz && \
     tar -xf ./kn-linux-amd64.tar.gz -C /usr/local/bin && \
     mv /usr/local/bin/kn-linux-amd64 /usr/local/bin/kn && \
     rm kn-linux-amd64.tar.gz && \
-    chown 1001 /usr/local/bin/kn && \
-    chmod 550 /usr/local/bin/kn
+    chown root:root /usr/local/bin/kn && \
+    chmod 755 /usr/local/bin/kn
 
 COPY . /tmp/src
 
