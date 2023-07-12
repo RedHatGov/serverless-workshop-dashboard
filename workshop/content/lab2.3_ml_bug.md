@@ -7,20 +7,16 @@ In this lab, you will debug the NLP Prediction Service using [CodeReady Workspac
 Get the endpoint to CodeReady and our devfile:
 
 ```execute
-echo $'\n'https://$(oc get route codeready -n openshift-workspaces --template='{{.spec.host}}')/f?url=https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
+echo $'\n'https://$(oc get route devspaces -n openshift-devspaces --template='{{.spec.host}}')#https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
 ```
 
 Open the link in your browser.  Login using your username and password.  Authorize access to your account when requested.
 
 You should see:
 
-![CRW Account Information](images/crw_account_info.png)
+Dev Spaces creates a workspace for you using the devfile specified in our repo.  Wait a few minutes and you should see:
 
-Enter fake account info and click Submit (You don't have to use real account information).
-
-CodeReady creates a workspace for you using the devfile specified in our repo.  Wait a few minutes and you should see:
-
-![CRW Welcome](images/crw_welcome.png)
+![Dev Spaces Welcome](images/crw_welcome.png)
 
 Let's pull up the code for debugging.  On the left, click the 'Explorer' icon to see your projects and folders:
 
@@ -32,26 +28,26 @@ Open the prediction code in the IDE, `serverless-workshop-code/model/prediction/
 
 You also need a terminal to run this code locally.  At the top, click 'Terminal' and 'Open Terminal in specific container':
 
-![CRW Terminal Icon](images/crw_terminal_icon.png)
+![Dev Spaces Terminal Icon](images/crw_terminal_icon.png)
 
 Select the 'python' development container:
 
-![CRW Python Container](images/crw_python_container.png)
+![Dev Spaces Python Container](images/crw_python_container.png)
 
 You should see a python terminal open in the bottom of your browser IDE:
 
-![CRW Python Terminal](images/crw_python_terminal.png)
+![Dev Spaces Python Terminal](images/crw_python_terminal.png)
 
-At this point, you have access to two terminals.  Your workshop terminal (where you run your labs) and the CodeReady Workspace terminal (where you run the code locally).  
+At this point, you have access to two terminals.  Your workshop terminal (where you run your labs) and the CodeReady Workspace terminal (where you run the code locally).
 
-Let's configure your CodeReady Workspace terminal.  
+Let's configure your CodeReady Workspace terminal.
 
 > Execute the following steps in your CodeReady Workspace terminal.
 
 Navigate to the prediction code directory:
 
 ```
-cd serverless-workshop-code/model/prediction
+cd model/prediction
 ```
 
 Install the python dependencies:
@@ -82,7 +78,7 @@ cat export.txt
 Next, run the app locally in your CodeReady Workspace terminal:
 
 ```
-FLASK_APP=prediction.py FLASK_ENV=development flask run
+FLASK_APP=prediction.py FLASK_ENV=development python -m flask run
 ```
 
 > Output
@@ -100,7 +96,7 @@ FLASK_APP=prediction.py FLASK_ENV=development flask run
 
 The application is now running locally in CodeReady Workspace.  Open another terminal using the 'python' development container.  You should see:
 
-![CRW Python Terminal Two](images/crw_python_terminal_two.png)
+![Dev Spaces Python Terminal Two](images/crw_python_terminal_two.png)
 
 > Execute the following steps in your second CodeReady Workspace terminal.
 
@@ -110,7 +106,7 @@ Send a sample request.  This should return 'No disaster':
 curl -X POST -d 'Body=nothing to see here' 'http://localhost:5000/predict' | xmllint --format -
 ```
 
-Send another sample request.  
+Send another sample request.
 
 ```
 curl -X POST -d 'Body=massive flooding and thunderstorms taking place' 'http://localhost:5000/predict' | xmllint --format -
@@ -127,14 +123,14 @@ Try to debug this code on your own.  Click below when you're ready to see the so
 
   Lines 39 and 41 have the line `if prediction is True`.
 
-  'prediction' is '1' if the model determines a disaster was detected.  This means the code is executing `if 1 is True`.  
+  'prediction' is '1' if the model determines a disaster was detected.  This means the code is executing `if 1 is True`.
 
   In python, the `is` operator tests if the objects have the same identity.  The integer `1` and boolean `True` do not have the same identity, so `1 is True` returns `False`.
 
   To fix this, replace `if prediction is True` to `if prediction == 1` on lines 39 and 41.  It should look like this:
 
   ![Prediction Code Fixed](images/crw_prediction_code_fixed.png)
-  
+
 </details>
 
 <br>

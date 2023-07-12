@@ -25,8 +25,9 @@ Deploy the workshop using the imported image:
 >    -p SPAWNER_NAMESPACE=homeroom \
 >    -p CLUSTER_SUBDOMAIN=$CLUSTER_SUBDOMAIN \
 >    -p WORKSHOP_NAME=serverless-workshop \
->    -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.5 \
+>    -p CONSOLE_IMAGE=quay.io/openshift/origin-console:4.12 \
 >    -p WORKSHOP_IMAGE=serverless-workshop-dashboard:latest \
+>    -p IDLE_TIMEOUT=86400 \
 >    | oc apply -n homeroom -f -
 > ```
 

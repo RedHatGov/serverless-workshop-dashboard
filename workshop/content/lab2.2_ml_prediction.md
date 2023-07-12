@@ -74,7 +74,7 @@ Finally, let's deploy this to OpenShift Serverless!
 ```execute
 PREDICTION_IMAGE_URI=$(oc get is prediction --template='{{.status.dockerImageRepository}}')
 kn service create prediction --image $PREDICTION_IMAGE_URI --env-from secret:serverless-workshop-ml \
---env ENDPOINT_URL=$ENDPOINT_URL --env BUCKET_NAME=$BUCKET_NAME --env MODEL_FILE_NAME=model.pkl
+--env ENDPOINT_URL=$ENDPOINT_URL --env BUCKET_NAME=$BUCKET_NAME --env MODEL_FILE_NAME=model.pkl --force
 ```
 
 Wait until the service successfully deploys.
