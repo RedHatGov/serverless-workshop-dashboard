@@ -282,13 +282,18 @@ In the second terminal you will see the following after it's done:
 pod "kafka-spammer" deleted
 ```
 
-After, select the top terminal and press `ctrl-c` to stop watching the pods.
+After we can stop watching the pods.
+
+```execute
+<ctrl+c>
+```
 
 ###  Cleanup
 
-Finally let's delete the kafkasource, kafkatopic, and knative service.
+Finally let's delete the build config, kafkasource, kafkatopic, and knative service.
 
 ```execute
+oc delete buildconfig prediction
 oc delete kafkasource mykafka-source
 oc delete kafkatopic my-topic-$USER_NUMBER
 oc delete ksvc eventinghello

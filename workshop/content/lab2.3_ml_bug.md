@@ -7,16 +7,12 @@ In this lab, you will debug the NLP Prediction Service using [CodeReady Workspac
 Get the endpoint to CodeReady and our devfile:
 
 ```execute
-echo $'\n'https://$(oc get route devspaces -n openshift-devspaces --template='{{.spec.host}}')/f?url=https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
+echo $'\n'https://$(oc get route devspaces -n openshift-devspaces --template='{{.spec.host}}')#https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
 ```
 
 Open the link in your browser.  Login using your username and password.  Authorize access to your account when requested.
 
 You should see:
-
-![Dev Spaces Account Information](images/crw_account_info.png)
-
-Enter fake account info and click Submit (You don't have to use real account information).
 
 Dev Spaces creates a workspace for you using the devfile specified in our repo.  Wait a few minutes and you should see:
 
@@ -51,7 +47,7 @@ Let's configure your CodeReady Workspace terminal.
 Navigate to the prediction code directory:
 
 ```
-cd serverless-workshop-code/model/prediction
+cd model/prediction
 ```
 
 Install the python dependencies:

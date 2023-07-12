@@ -53,6 +53,10 @@ NAME                   READY   STATUS      RESTARTS   AGE
 hello-python-1-build   0/1     Completed   0          9m44s
 ```
 
+```execute
+<ctrl-c>
+```
+
 ### Deploy the service
 
 Deploying the image is as simple as giving it a name, `hello-python`, an image location, and whatever environment variables our application needs.
@@ -155,9 +159,16 @@ Hello Pythonistas!
 
 If you wait another ~90s, then you will see the `hello-python` service again be destroyed.
 
+```execute
+<ctrl+c>
+```
+
 ### Delete service
 
+Delete the build and service.
+
 ```execute
+oc delete buildconfig hello-python
 kn service delete hello-python
 ```
 
