@@ -26,13 +26,9 @@ Open the prediction code in the IDE, `serverless-workshop-code/model/prediction/
 
 ![Prediction Code](images/crw_prediction_code.png)
 
-You also need a terminal to run this code locally.  At the top, click 'Terminal' and 'Open Terminal in specific container':
+You also need a terminal to run this code locally.  In the menu, open a new terminal.
 
 ![Dev Spaces Terminal Icon](images/crw_terminal_icon.png)
-
-Select the 'python' development container:
-
-![Dev Spaces Python Container](images/crw_python_container.png)
 
 You should see a python terminal open in the bottom of your browser IDE:
 
@@ -53,7 +49,7 @@ cd model/prediction
 Install the python dependencies:
 
 ```
-pip install -r requirements.txt
+python3.6 -m venv .venv && source ./.venv/bin/activate && pip install -r requirements.txt
 ```
 
 Set your environment variables.
@@ -94,7 +90,7 @@ FLASK_APP=prediction.py FLASK_ENV=development python -m flask run
 
 > If you see a prompt that says "A new process is now listening on port 5000...You should change to be remotely available...", select **no** because we will execute this locally.
 
-The application is now running locally in CodeReady Workspace.  Open another terminal using the 'python' development container.  You should see:
+The application is now running locally.  Open another terminal.  You should see:
 
 ![Dev Spaces Python Terminal Two](images/crw_python_terminal_two.png)
 

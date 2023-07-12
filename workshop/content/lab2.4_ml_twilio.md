@@ -16,7 +16,7 @@ Here are the instructions:
 1. Click this [link][2] to create an account.  You will be asked to verify your personal phone number.
 2. Follow these [instructions][3] to get your first Twilio phone number.
 
-> In trial mode, you have to verify a personal phone number for Twilio to send it messages.  If you want to use a different phone number to test this lab, follow the instructions [here][4] to verify another phone number in your trial account.
+> In trial mode, you have to verify a personal phone number for Twilio to send it messages.  If you want to use a different phone number to test this lab, follow the instructions [here][4] to verify another phone number in your trial account. Also ensure you do not have a toll free number as that will not support text messaging without a Twilio approval process.
 
 ## Configure
 
@@ -25,7 +25,7 @@ Now that you have a Twilio phone number, you need to configure a webhook URL.  W
 Update your prediction service to run a minimum of 1 replica:
 
 ```execute
-kn service update prediction --min-scale 1
+kn service update prediction --scale-min 1
 ```
 
 Make note of your prediction endpoint:
