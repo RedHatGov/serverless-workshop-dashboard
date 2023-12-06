@@ -12,7 +12,6 @@ modules:
     - lab2.1_ml_overview
     - lab2.2_ml_prediction
     - lab2.3_ml_bug
-    - lab2.4_ml_twilio
-    - lab2.5_ml_lifeline
-    - lab2.6_ml_summary    
+    - lab2.4_ml_lifeline
+    - lab2.5_ml_summary
     - fin

@@ -88,21 +88,7 @@ Output (sample):
 
 The prediction service now responds with a link to the Lifeline application if the model determines the message is legitimate.
 
-## Test
-
-It's time for one final end-to-end test of the user experience!  Text your Twilio phone number using your personal mobile device.
-
-Text 'Nothing to see here' and you should see:
-
-![Twilio Lifeline One](images/twilio_lifeline_one.png)
-
-Text 'Massive flooding and thunderstorms taking place' and you should see:
-
-![Twilio Lifeline Two](images/twilio_lifeline_two.png)
-
-> Note: If you don't see a response, try sending the message again.  Twilio has a timeout window that is not configurable.
-
-Click the link on your mobile device.  Allow the website to access your location if asked by your browser.  You will be presented with the Lifeline application:
+Now, if you're able to, open that link on your mobile device.  Allow the website to access your location if asked by your browser.  You will be presented with the Lifeline application:
 
 > Note: Your settings must not be actively denying GPS access for geo-location to work on mobile
 
@@ -118,6 +104,6 @@ Click 'Share My Info & Get Help' once you are ready.  You should get a response 
 
 ## Summary
 
-You deployed the Lifeline application on OpenShift and connected it to the NLP Prediction Service.  This completed the end user experience.  Now, your users can text a phone number, receive a link to Lifeline, and request for help directly from the Lifeline application.
+You deployed the Lifeline application on OpenShift and connected it to the NLP Prediction Service.  Now your users can receive a link to Lifeline, and request for help directly from the Lifeline application.
 
 [1]: https://github.com/RedHatGov/serverless-workshop-code/tree/main/lifeline

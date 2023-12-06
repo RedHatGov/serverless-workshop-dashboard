@@ -20,6 +20,6 @@ Red Hat OpenShift makes it easy to take advantage of delivering serverless appli
 It does this by applying two key concepts:
 
 - Serving - Builds on Kubernetes to support deploying and serving serverless applications and functions.
-- Eventing - Is a system that is designed to address a common need for cloud native development and provides composable primitives to enable late-binding event sources and event consumers.
+- Eventing - Provides composable primitives to enable late-binding event sources and event consumers supporting event driven architectures.
 
-Red Hat OpenShift Serverless not only opens serverless architecture, but also adds monitoring, metering, A/B testing, canary releases, and publicly exposed routes.  Another benefit of it running within the OpenShift ecosystem is that all of the hybrid cloud and cloud native development tools are available and all integrate and work well with each other.  This includes things like CodeReady Workspaces, supported runtimes for your container, and hundreds of integration connectors ready to go out of the box like Kafka event streams.
+Red Hat OpenShift Serverless not only opens serverless architecture, but also adds monitoring, metering, A/B testing, canary releases, and publicly exposed routes.  Another benefit of it running within the OpenShift ecosystem is that all of the hybrid cloud and cloud native development tools are available and work well with each other.  This includes things like Dev Spaces to write code, supported runtimes for your container, and hundreds of integration connectors ready to go out of the box like Kafka event streams.
