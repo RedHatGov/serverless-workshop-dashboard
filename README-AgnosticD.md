@@ -3,7 +3,7 @@
 
 Please see [agnosticd repo](https://github.com/redhat-cop/agnosticd) if you need a primer.
 
-1. Order an OpenShift 4.8 Cluster on [RHPDS](https://rhpds.redhat.com).
+1. Order an OpenShift 4.12 Cluster on [RHPDS](https://rhpds.redhat.com).
 
 2. Scale the worker nodes to 3 (this is required to deploy an OCS cluster for the workshop).
 

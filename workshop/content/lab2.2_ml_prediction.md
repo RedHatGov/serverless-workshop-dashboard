@@ -1,6 +1,6 @@
 # Build machine learning API
 
-In this lab, you will build and deploy the NLP Prediction Service using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Data Foundation][1] (ODF).  
+In this lab, you will build and deploy the NLP Prediction Service using OpenShift Serverless.  The prediction service needs a Natural Language Processing (NLP) model to verify if a message describes a legitimate disaster.  To make things easier, we pre-created this model for you and stored this in [OpenShift Data Foundation][1] (ODF).
 
 The model was trained on a [Twitter dataset][2] originally used for a Kaggle competition, in which tweets were labeled **1** (the tweet is about a real disater) or **0** (the tweet is not about a real disaster).  If you're curious, the model uses a scikit-learn [Multinomial Naive Bayes classifier][3] to make its predictions.  The training code is [here][4] if you want to take a look.
 
@@ -88,7 +88,7 @@ kn service list
 Output (sample):
 ```
 NAME         URL                                                                  LATEST               AGE     CONDITIONS   READY   REASON
-prediction   http://prediction-userx.apps.cluster-xxxx.xxxx.example.opentlc.com   prediction-xxxxx-1   2m39s   3 OK / 3     True    
+prediction   http://prediction-userx.apps.cluster-xxxx.xxxx.example.opentlc.com   prediction-xxxxx-1   2m39s   3 OK / 3     True
 ```
 
 ## Test API

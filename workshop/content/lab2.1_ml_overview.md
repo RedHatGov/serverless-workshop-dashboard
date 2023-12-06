@@ -15,6 +15,5 @@ Here is the architecture:
 You will focus on building, debugging, and deploying the NLP Prediction Service.  You will also integrate the following important components:
 
 * [Lifeline](https://github.com/RedHatGov/serverless-workshop-code/tree/main/lifeline) - a React based web application
-* [Twilio](https://www.twilio.com/) - a communications API for building the phone/text user interaction
 
 Feel free to ask your instructor if you have any questions about this architecture.  Let's get started!

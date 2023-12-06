@@ -1,10 +1,10 @@
 # Oops, there's a major bug!
 
-In this lab, you will debug the NLP Prediction Service using [CodeReady Workspaces][1], an in-browser IDE running on OpenShift.  We have defined a workspace for you using a [devfile][2], which CodeReady Workspaces uses to create your workspace.  After debugging, you will release a new version of the code using OpenShift Serverless.
+In this lab, you will debug the NLP Prediction Service using [Dev Spaces][1], an in-browser IDE running on OpenShift.  We have defined a workspace for you using a [devfile][2], which Dev Spaces uses to create your workspace.  After debugging, you will release a new version of the code using OpenShift Serverless.
 
 ## Debug
 
-Get the endpoint to CodeReady and our devfile:
+Get the endpoint to Dev Spaces and our devfile:
 
 ```execute
 echo $'\n'https://$(oc get route devspaces -n openshift-devspaces --template='{{.spec.host}}')#https://github.com/RedHatGov/serverless-workshop-code/tree/workshop$'\n'
@@ -18,11 +18,7 @@ Dev Spaces creates a workspace for you using the devfile specified in our repo. 
 
 ![Dev Spaces Welcome](images/crw_welcome.png)
 
-Let's pull up the code for debugging.  On the left, click the 'Explorer' icon to see your projects and folders:
-
-![Explorer Icon](images/crw_explorer_icon.png)
-
-Open the prediction code in the IDE, `serverless-workshop-code/model/prediction/prediction.py`:
+Open the prediction code in the IDE, `model/prediction/prediction.py`:
 
 ![Prediction Code](images/crw_prediction_code.png)
 
@@ -34,11 +30,11 @@ You should see a python terminal open in the bottom of your browser IDE:
 
 ![Dev Spaces Python Terminal](images/crw_python_terminal.png)
 
-At this point, you have access to two terminals.  Your workshop terminal (where you run your labs) and the CodeReady Workspace terminal (where you run the code locally).
+At this point, you have access to two terminals.  Your workshop terminal (where you run your labs) and the Dev Spaces terminal (where you run the code locally).
 
-Let's configure your CodeReady Workspace terminal.
+Let's configure your Dev Spaces terminal.
 
-> Execute the following steps in your CodeReady Workspace terminal.
+> Execute the following steps in your Dev Spaces terminal.
 
 Navigate to the prediction code directory:
 
@@ -67,11 +63,11 @@ cat export.txt
 
 **Copy** this output to your clipboard.
 
-> Switch back to your CodeReady Workspaces terminal.
+> Switch back to your Dev Spaces terminal.
 
 **Paste** the above output in your terminal.
 
-Next, run the app locally in your CodeReady Workspace terminal:
+Next, run the app locally in your Dev Spaces terminal:
 
 ```
 FLASK_APP=prediction.py FLASK_ENV=development python -m flask run
@@ -94,7 +90,7 @@ The application is now running locally.  Open another terminal.  You should see:
 
 ![Dev Spaces Python Terminal Two](images/crw_python_terminal_two.png)
 
-> Execute the following steps in your second CodeReady Workspace terminal.
+> Execute the following steps in your second Dev Spaces terminal.
 
 Send a sample request.  This should return 'No disaster':
 
@@ -135,7 +131,7 @@ After you make the necessary changes, Flask will auto-reload for you.
 
 Let's try sending the sample requests again.
 
-> Execute the following steps in your CodeReady Workspace terminal.
+> Execute the following steps in your Dev Spaces terminal.
 
 ```
 curl -X POST -d 'Body=nothing to see here' 'http://localhost:5000/predict' | xmllint --format -
@@ -255,11 +251,11 @@ curl -X POST -d 'Body=massive flooding and thunderstorms taking place' $PREDICTI
 
 ## Clean Up
 
-Close your CodeReady Workspace IDE.  You can complete the rest of the labs in your workshop terminal.
+Close your Dev Spaces IDE.  You can complete the rest of the labs in your workshop terminal.
 
 ## Summary
 
-You debugged the NLP Prediction Service using CodeReady Workspaces.  Once the fix was identified, you updated the prediction service with the new code and tested it using a private endpoint.  Finally, once you verified that everything was working as intended, you released it live for external use.
+You debugged the NLP Prediction Service using Dev Spaces.  Once the fix was identified, you updated the prediction service with the new code and tested it using a private endpoint.  Finally, once you verified that everything was working as intended, you released it live for external use.
 
 [1]: https://www.redhat.com/en/technologies/jboss-middleware/codeready-workspaces
 [2]: https://access.redhat.com/documentation/en-us/red_hat_codeready_workspaces/2.4/html/end-user_guide/developer-workspaces_crw#what-is-a-devfile_crw
